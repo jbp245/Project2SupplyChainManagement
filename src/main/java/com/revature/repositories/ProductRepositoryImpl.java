@@ -1,6 +1,7 @@
 package com.revature.repositories;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
@@ -15,7 +16,6 @@ public class ProductRepositoryImpl implements ProductRepository {
 	@Autowired
 	SessionFactory sf;
 
-	@Override
 	public void addProduct(Product product) {
 
 		Session sess = sf.openSession();
@@ -33,7 +33,6 @@ public class ProductRepositoryImpl implements ProductRepository {
 		}
 	}
 
-	@Override
 	public Product getProduct(int id) {
 		Session sess = sf.openSession();
 		Product product = null;
@@ -49,7 +48,6 @@ public class ProductRepositoryImpl implements ProductRepository {
 		return product;
 	}
 
-	@Override
 	public List<Product> getAllProducts() {
 		Session sess = sf.openSession();
 		List<Product> products = null;
@@ -65,7 +63,6 @@ public class ProductRepositoryImpl implements ProductRepository {
 		return products;
 	}
 
-	@Override
 	public Product updateProduct(Product product) {
 		Session sess = sf.openSession();
 		Transaction tx = null;
@@ -86,7 +83,6 @@ public class ProductRepositoryImpl implements ProductRepository {
 		return updatedProduct;
 	}
 
-	@Override
 	public boolean deleteProduct(int id) {
 		Session sess = sf.openSession();
 		Transaction tx = null;
@@ -103,5 +99,71 @@ public class ProductRepositoryImpl implements ProductRepository {
 			sess.close();
 		}
 		return false;
+	}
+
+	@Override
+	public <S extends Product> S save(S entity) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public <S extends Product> Iterable<S> saveAll(Iterable<S> entities) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public Optional<Product> findById(Integer id) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public boolean existsById(Integer id) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public Iterable<Product> findAll() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public Iterable<Product> findAllById(Iterable<Integer> ids) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public long count() {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	@Override
+	public void deleteById(Integer id) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void delete(Product entity) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void deleteAll(Iterable<? extends Product> entities) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void deleteAll() {
+		// TODO Auto-generated method stub
+		
 	}
 }
