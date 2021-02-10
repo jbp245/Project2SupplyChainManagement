@@ -20,28 +20,28 @@ public class ProductController {
 	@Autowired
 	ProductService service;
 	
-	@GetMapping(value = "/Products/{id}")
+	@GetMapping(value = "/product/{id}")
 	public Product getProduct(@PathVariable("id") String id) {
 		return service.getProduct(Integer.parseInt(id));
 	}
 	
-	@GetMapping(value = "/Products", produces = "application/json")
+	@GetMapping(value = "/product", produces = "application/json")
 	public List<Product> getAllProducts() {
 		return service.getAllProducts();
 	}
 	
-	@PostMapping(value = "/Products", consumes = "application/json", produces = "application/json")
+	@PostMapping(value = "/product", consumes = "application/json", produces = "application/json")
 	public Product addProduct(@RequestBody Product a) {
 		return service.addProduct(a);
 	}
 	
-	@PutMapping(value = "/Products/{id}", consumes = "application/json")
+	@PutMapping(value = "/product/{id}", consumes = "application/json")
 	public Product updateProduct(@PathVariable("id") int id, @RequestBody Product change) {
 		change.setId(id);
 		return service.updateProduct(change);
 	}
 	
-	@DeleteMapping(value = "/Products/{id}")
+	@DeleteMapping(value = "/product/{id}")
 	public boolean deleteProduct(@PathVariable("id") int id) {
 		System.out.println("Executing Delete");
 		return service.deleteProduct(id);
