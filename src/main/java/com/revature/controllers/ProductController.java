@@ -19,10 +19,15 @@ public class ProductController {
 	
 	@Autowired
 	ProductService service;
-
-	@GetMapping(value = "/products", produces = "application/json")
+  
+	@GetMapping(value = "/product", produces = "application/json")
 	public List<Product> getAllProducts() {
 		return service.getAllProducts();
+	}
+	
+	@GetMapping(value = "/product/{id}", produces = "application/json")
+	public Product getProduct(@PathVariable("id") String id) {
+		return service.getProduct(Integer.parseInt(id));
 	}
 	
 	@PostMapping(value = "/product", consumes = "application/json", produces = "application/json")

@@ -21,16 +21,19 @@ public class Product {
 	@Column(columnDefinition = "NUMBER")
 	private double product_cost;
 	private int stock_in_warehouse;
+	private String product_type;
 	
 	public Product() {
 		super();
 	}
 
-	public Product(String product_name, double product_cost, int stock_in_warehouse) {
+	public Product(int id, String product_name, double product_cost, int stock_in_warehouse, String product_type) {
 		super();
+		this.id = id;
 		this.product_name = product_name;
 		this.product_cost = product_cost;
 		this.stock_in_warehouse = stock_in_warehouse;
+		this.product_type = product_type;
 	}
 
 	public int getId() {
@@ -64,11 +67,19 @@ public class Product {
 	public void setStock_in_warehouse(int stock_in_warehouse) {
 		this.stock_in_warehouse = stock_in_warehouse;
 	}
+	
+	public String getProduct_type() {
+		return product_type;
+	}
+
+	public void setProduct_type(String product_type) {
+		this.product_type = product_type;
+	}
 
 	@Override
 	public String toString() {
 		return "Product [id=" + id + ", product_name=" + product_name + ", product_cost=" + product_cost
-				+ ", stock_in_warehouse=" + stock_in_warehouse + "]";
+				+ ", stock_in_warehouse=" + stock_in_warehouse + ", product_type=" + product_type + "]";
 	}
 	
 }
