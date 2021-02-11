@@ -19,7 +19,7 @@ public class ProductController {
 	
 	@Autowired
 	ProductService service;
-	
+  
 	@GetMapping(value = "/product", produces = "application/json")
 	public List<Product> getAllProducts() {
 		return service.getAllProducts();
@@ -34,7 +34,7 @@ public class ProductController {
 	public Product addProduct(@RequestBody Product product) {
 		return service.addProduct(product);
 	}
-	
+
 	@PutMapping(value = "/product/{id}", consumes = "application/json")
 	public Product updateProduct(@PathVariable("id") int id, @RequestBody Product change) {
 		change.setId(id);
