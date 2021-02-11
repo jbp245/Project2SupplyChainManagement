@@ -31,18 +31,23 @@ public class DistributionInvoice {
 	
 	@Column
 	private int distributor_id;
+	
+	@Column
+	private int order_quantity;
 
 	public DistributionInvoice() {
 		super();
 	}
 
-	public DistributionInvoice(int id, Date date_issued, int product_id, float total_cost, int distributor_id) {
+	public DistributionInvoice(int id, Date date_issued, int product_id, float total_cost, int distributor_id,
+			int order_quantity) {
 		super();
 		this.id = id;
 		this.date_issued = date_issued;
 		this.product_id = product_id;
 		this.total_cost = total_cost;
 		this.distributor_id = distributor_id;
+		this.order_quantity = order_quantity;
 	}
 
 	public int getId() {
@@ -85,10 +90,19 @@ public class DistributionInvoice {
 		this.distributor_id = distributor_id;
 	}
 
+	public int getOrder_quantity() {
+		return order_quantity;
+	}
+
+	public void setOrder_quantity(int order_quantity) {
+		this.order_quantity = order_quantity;
+	}
+
 	@Override
 	public String toString() {
 		return "DistributionInvoice [id=" + id + ", date_issued=" + date_issued + ", product_id=" + product_id
-				+ ", total_cost=" + total_cost + ", distributor_id=" + distributor_id + "]";
+				+ ", total_cost=" + total_cost + ", distributor_id=" + distributor_id + ", order_quantity="
+				+ order_quantity + "]";
 	}
 	
 	

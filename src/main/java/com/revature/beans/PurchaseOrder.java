@@ -28,7 +28,6 @@ public class PurchaseOrder {
 	private int id;	
 	
 	
-	private String product_offered;
 	private String order_status;
 	//@Temporal(TemporalType.DATE)
 	private Date order_placed_date;
@@ -36,7 +35,6 @@ public class PurchaseOrder {
 	private Date order_completed_date;
 	//@Temporal(TemporalType.DATE)
 	private Date order_shipped_date;
-	private int order_quantity;
 	private int invoice_id;
 	private String order_type;
 	
@@ -58,15 +56,13 @@ public class PurchaseOrder {
 	 * @param invoice_id
 	 * @param order_type
 	 */
-	public PurchaseOrder(String product_offered, String order_status, Date order_placed_date, Date order_completed_date,
-			Date order_shipped_date, int order_quantity, int invoice_id, String order_type) {
+	public PurchaseOrder(String order_status, Date order_placed_date, Date order_completed_date,
+			Date order_shipped_date, int invoice_id, String order_type) {
 		super();
-		this.product_offered = product_offered;
 		this.order_status = order_status;
 		this.order_placed_date = order_placed_date;
 		this.order_completed_date = order_completed_date;
 		this.order_shipped_date = order_shipped_date;
-		this.order_quantity = order_quantity;
 		this.invoice_id = invoice_id;
 		this.order_type = order_type;
 	}
@@ -83,20 +79,6 @@ public class PurchaseOrder {
 	 */
 	public void setId(int id) {
 		this.id = id;
-	}
-
-	/**
-	 * @return the product_offered
-	 */
-	public String getProduct_offered() {
-		return product_offered;
-	}
-
-	/**
-	 * @param product_offered the product_offered to set
-	 */
-	public void setProduct_offered(String product_offered) {
-		this.product_offered = product_offered;
 	}
 
 	/**
@@ -156,20 +138,6 @@ public class PurchaseOrder {
 	}
 
 	/**
-	 * @return the order_quantity
-	 */
-	public int getOrder_quantity() {
-		return order_quantity;
-	}
-
-	/**
-	 * @param order_quantity the order_quantity to set
-	 */
-	public void setOrder_quantity(int order_quantity) {
-		this.order_quantity = order_quantity;
-	}
-
-	/**
 	 * @return the invoice_id
 	 */
 	public int getInvoice_id() {
@@ -199,9 +167,9 @@ public class PurchaseOrder {
 
 	@Override
 	public String toString() {
-		return "PurchaseOrder [id=" + id + ", product_offered=" + product_offered + ", order_status=" + order_status
+		return "PurchaseOrder [id=" + id + ", order_status=" + order_status
 				+ ", order_placed_date=" + order_placed_date + ", order_completed_date=" + order_completed_date
-				+ ", order_shipped_date=" + order_shipped_date + ", order_quantity=" + order_quantity + ", invoice_id="
+				+ ", order_shipped_date=" + order_shipped_date + ", invoice_id="
 				+ invoice_id + ", order_type=" + order_type + "]";
 	}
 }
