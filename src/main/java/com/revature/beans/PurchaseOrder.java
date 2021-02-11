@@ -10,15 +10,13 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Table;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
 
 /**
  * @author james
  *
  */
 @Entity
-@Table(name = "PURCHASE_ORDER")
+@Table(name = "purchase_order")
 public class PurchaseOrder {
 	
 	@Id
@@ -27,11 +25,11 @@ public class PurchaseOrder {
 	private int id;	
 	private String product_offered;
 	private String order_status;
-	@Temporal(TemporalType.DATE)
+	//@Temporal(TemporalType.DATE)
 	private Date order_placed_date;
-	@Temporal(TemporalType.DATE)
+	//@Temporal(TemporalType.DATE)
 	private Date order_completed_date;
-	@Temporal(TemporalType.DATE)
+	//@Temporal(TemporalType.DATE)
 	private Date order_shipped_date;
 	private int order_quantity;
 	private int invoice_id;

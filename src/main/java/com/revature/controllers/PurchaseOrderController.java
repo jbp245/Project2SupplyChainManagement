@@ -28,23 +28,23 @@ public class PurchaseOrderController {
 	@Autowired
 	PurchaseOrderService pos;
 	
-	@GetMapping(value = "/purchaseorders/{id}")
+	@GetMapping(value = "/purchaseorder/{id}")
 	public PurchaseOrder getPurchaseOrder(@PathVariable("id") int id) { return pos.get(id); }
 	
-	@GetMapping(value = "/products/search")
+	@GetMapping(value = "/purchaseorder/search")
 	public PurchaseOrder getPurchaseOrderById(@RequestParam(required = true) int id) { return pos.get(id); }
 	
-	@GetMapping(value = "/purchaseorders", produces = "application/json")
+	@GetMapping(value = "/purchaseorder", produces = "application/json")
 	public List<PurchaseOrder> getAllPurchaseOrders() { return pos.getAll(); }
 	
-	@PostMapping(value = "/purchaseorders", consumes = "application/json", produces = "application/json")
+	@PostMapping(value = "/purchaseorder", consumes = "application/json", produces = "application/json")
 	public PurchaseOrder addPurchaseOrder(@RequestBody PurchaseOrder a) { return pos.add(a); }
 	
-	@PutMapping(value = "/purchaseorders/{id}", consumes = "application/json")
+	@PutMapping(value = "/purchaseorder/{id}", consumes = "application/json")
 	public PurchaseOrder updatePurchaseOrder(@PathVariable("id") int id, @RequestBody PurchaseOrder change) { change.setId(id); return pos.update(change); }
 	
 	//@Authorized
-	@DeleteMapping(value = "/purchaseorders/{id}")
+	@DeleteMapping(value = "/purchaseorder/{id}")
 	public boolean deletePurchaseOrder(@PathVariable("id") int id) { return pos.delete(id); }
 
 }
