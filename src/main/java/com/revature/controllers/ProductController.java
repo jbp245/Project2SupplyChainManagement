@@ -20,19 +20,19 @@ public class ProductController {
 	@Autowired
 	ProductService service;
 	
-	@GetMapping(value = "/product/{id}")
-	public Product getProduct(@PathVariable("id") String id) {
-		return service.getProduct(Integer.parseInt(id));
+	@GetMapping(value = "/test")
+	public String test() {
+		return "you reached /test";
 	}
 	
-	@GetMapping(value = "/product", produces = "application/json")
+	@GetMapping(value = "/products", produces = "application/json")
 	public List<Product> getAllProducts() {
 		return service.getAllProducts();
 	}
 	
 	@PostMapping(value = "/product", consumes = "application/json", produces = "application/json")
-	public Product addProduct(@RequestBody Product a) {
-		return service.addProduct(a);
+	public Product addProduct(@RequestBody Product product) {
+		return service.addProduct(product);
 	}
 	
 	@PutMapping(value = "/product/{id}", consumes = "application/json")
@@ -46,7 +46,5 @@ public class ProductController {
 		System.out.println("Executing Delete");
 		return service.deleteProduct(id);
 	}
-
-
 
 }
