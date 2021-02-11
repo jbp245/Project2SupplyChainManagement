@@ -20,11 +20,6 @@ public class ProductController {
 	@Autowired
 	ProductService service;
 	
-	@GetMapping(value = "/test")
-	public String test() {
-		return "you reached /test";
-	}
-	
 	@GetMapping(value = "/products", produces = "application/json")
 	public List<Product> getAllProducts() {
 		return service.getAllProducts();
