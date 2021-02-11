@@ -3,18 +3,22 @@ package com.revature.beans;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
 @Entity
-@Table(name = "users")
+@Table(name = "product")
 public class Product {
 	
+	@SequenceGenerator(name = "product_seq", sequenceName = "product_seq", allocationSize = 1)
+	@GeneratedValue(generator = "product_seq", strategy = GenerationType.SEQUENCE)
 	@Id
 	@Column(updatable = false)
-	@GeneratedValue
 	private int id;
 	private String product_name;
+	@Column(columnDefinition = "NUMBER")
 	private double product_cost;
 	private int stock_in_warehouse;
 	
