@@ -23,7 +23,7 @@ public class PurchaseOrder {
 	
 	@Id
 	@Column(updatable = false)
-	@SequenceGenerator(name = "order_seq", sequenceName = "oreder_seq", allocationSize = 1)
+	@SequenceGenerator(name = "order_seq", sequenceName = "order_seq", allocationSize = 1)
 	@GeneratedValue(generator = "order_seq", strategy = GenerationType.SEQUENCE)
 	private int id;	
 	
