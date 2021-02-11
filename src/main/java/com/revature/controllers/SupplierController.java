@@ -43,7 +43,7 @@ public class SupplierController {
 		return service.updateSupplier(change);
 	}
 	
-	@DeleteMapping(value = "/Suppliers/{id}")
+	@DeleteMapping(value = "/supplier/{id}")
 	public boolean deleteSupplier(@PathVariable("id") int id) {
 		System.out.println("Executing Delete");
 		return service.deleteSupplier(id);

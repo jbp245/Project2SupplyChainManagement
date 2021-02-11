@@ -3,16 +3,19 @@ package com.revature.beans;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
 @Entity //Denotes the Class as having DB representation
 @Table(name = "supplier")
 public class Supplier {
 	
+	@SequenceGenerator(name = "supplier_seq", sequenceName = "supplier_seq", allocationSize = 1)
+	@GeneratedValue(generator = "supplier_seq", strategy = GenerationType.SEQUENCE)
 	@Id
 	@Column(updatable = false)
-	@GeneratedValue
 	private int id;
 	private String name;
 	private String address;
