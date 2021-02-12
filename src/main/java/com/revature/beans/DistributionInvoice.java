@@ -27,7 +27,7 @@ public class DistributionInvoice {
 	private int product_id;
 	
 	@Column(columnDefinition = "number")
-	private float total_cost;
+	private double total_cost;
 	
 	@Column
 	private int distributor_id;
@@ -39,7 +39,7 @@ public class DistributionInvoice {
 		super();
 	}
 
-	public DistributionInvoice(int id, Date date_issued, int product_id, float total_cost, int distributor_id,
+	public DistributionInvoice(int id, Date date_issued, int product_id, double total_cost, int distributor_id,
 			int order_quantity) {
 		super();
 		this.id = id;
@@ -74,11 +74,11 @@ public class DistributionInvoice {
 		this.product_id = product_id;
 	}
 
-	public float getTotal_cost() {
+	public double getTotal_cost() {
 		return total_cost;
 	}
 
-	public void setTotal_cost(float total_cost) {
+	public void setTotal_cost(double total_cost) {
 		this.total_cost = total_cost;
 	}
 
