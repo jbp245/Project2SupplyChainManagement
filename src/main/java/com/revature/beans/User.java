@@ -40,8 +40,8 @@ public class User {
 		return role_name;
 	}
 
-	public void setRole_name(String role_name) {
-		this.role_name = role_name;
+	public void setRole_name(String rolename) {
+		this.role_name = rolename;
 	}
 
 	public String getUsername() {
