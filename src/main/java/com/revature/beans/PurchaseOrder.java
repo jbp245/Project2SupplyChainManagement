@@ -35,7 +35,8 @@ public class PurchaseOrder {
 	private Date order_completed_date;
 	//@Temporal(TemporalType.DATE)
 	private Date order_shipped_date;
-	private int invoice_id;
+	private int distribution_invoice_id;
+	private int supplier_invoice_id;
 	private String order_type;
 	
 	/**
@@ -57,13 +58,14 @@ public class PurchaseOrder {
 	 * @param order_type
 	 */
 	public PurchaseOrder(String order_status, Date order_placed_date, Date order_completed_date,
-			Date order_shipped_date, int invoice_id, String order_type) {
+			Date order_shipped_date, int distribution_invoice_id, int supplier_invoice_id, String order_type) {
 		super();
 		this.order_status = order_status;
 		this.order_placed_date = order_placed_date;
 		this.order_completed_date = order_completed_date;
 		this.order_shipped_date = order_shipped_date;
-		this.invoice_id = invoice_id;
+		this.distribution_invoice_id = distribution_invoice_id;
+		this.supplier_invoice_id = supplier_invoice_id;
 		this.order_type = order_type;
 	}
 
@@ -137,19 +139,19 @@ public class PurchaseOrder {
 		this.order_shipped_date = order_shipped_date;
 	}
 
-	/**
-	 * @return the invoice_id
-	 */
-	public int getInvoice_id() {
-		return invoice_id;
-	}
-
-	/**
-	 * @param invoice_id the invoice_id to set
-	 */
-	public void setInvoice_id(int invoice_id) {
-		this.invoice_id = invoice_id;
-	}
+//	/**
+//	 * @return the invoice_id
+//	 */
+//	public int getInvoice_id() {
+//		return invoice_id;
+//	}
+//
+//	/**
+//	 * @param invoice_id the invoice_id to set
+//	 */
+//	public void setInvoice_id(int invoice_id) {
+//		this.invoice_id = invoice_id;
+//	}
 
 	/**
 	 * @return the order_type
@@ -157,7 +159,7 @@ public class PurchaseOrder {
 	public String getOrder_type() {
 		return order_type;
 	}
-
+	
 	/**
 	 * @param order_type the order_type to set
 	 */
@@ -165,11 +167,28 @@ public class PurchaseOrder {
 		this.order_type = order_type;
 	}
 
+	public int getDistribution_invoice_id() {
+		return distribution_invoice_id;
+	}
+
+	public void setDistribution_invoice_id(int distribution_invoice_id) {
+		this.distribution_invoice_id = distribution_invoice_id;
+	}
+
+	public int getSupplier_invoice_id() {
+		return supplier_invoice_id;
+	}
+
+	public void setSupplier_invoice_id(int supplier_invoice_id) {
+		this.supplier_invoice_id = supplier_invoice_id;
+	}
+
 	@Override
 	public String toString() {
-		return "PurchaseOrder [id=" + id + ", order_status=" + order_status
-				+ ", order_placed_date=" + order_placed_date + ", order_completed_date=" + order_completed_date
-				+ ", order_shipped_date=" + order_shipped_date + ", invoice_id="
-				+ invoice_id + ", order_type=" + order_type + "]";
+		return "PurchaseOrder [id=" + id + ", order_status=" + order_status + ", order_placed_date=" + order_placed_date
+				+ ", order_completed_date=" + order_completed_date + ", order_shipped_date=" + order_shipped_date
+				+ ", distribution_invoice_id=" + distribution_invoice_id + ", supplier_invoice_id="
+				+ supplier_invoice_id + ", order_type=" + order_type + "]";
 	}
+
 }

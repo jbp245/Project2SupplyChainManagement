@@ -3,6 +3,7 @@ package com.revature.controllers;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -14,12 +15,13 @@ import org.springframework.web.bind.annotation.RestController;
 import com.revature.beans.Product;
 import com.revature.services.ProductService;
 
+@CrossOrigin
 @RestController
 public class ProductController {
 	
 	@Autowired
 	ProductService service;
-	
+  
 	@GetMapping(value = "/product", produces = "application/json")
 	public List<Product> getAllProducts() {
 		return service.getAllProducts();
@@ -34,7 +36,7 @@ public class ProductController {
 	public Product addProduct(@RequestBody Product product) {
 		return service.addProduct(product);
 	}
-	
+
 	@PutMapping(value = "/product/{id}", consumes = "application/json")
 	public Product updateProduct(@PathVariable("id") int id, @RequestBody Product change) {
 		change.setId(id);

@@ -33,7 +33,7 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService{
 
 	@Override
 	public PurchaseOrder add(PurchaseOrder a) {
-		return por.save(null);
+		return por.save(a);
 	}
 
 	@Override
