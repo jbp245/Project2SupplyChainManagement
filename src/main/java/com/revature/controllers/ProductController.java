@@ -26,10 +26,15 @@ public class ProductController {
 	public List<Product> getAllProducts() {
 		return service.getAllProducts();
 	}
-	
+
 	@GetMapping(value = "/product/{id}", produces = "application/json")
 	public Product getProduct(@PathVariable("id") String id) {
 		return service.getProduct(Integer.parseInt(id));
+	}
+	
+	@GetMapping(value = "/rawproduct", produces = "application/json")
+	public List<Product> getRawProducts() {
+		return service.getAllRawProducts();
 	}
 	
 	@PostMapping(value = "/product", consumes = "application/json", produces = "application/json")

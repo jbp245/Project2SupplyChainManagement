@@ -1,5 +1,6 @@
 package com.revature.services;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,6 +28,18 @@ public class ProductServiceImpl implements ProductService {
 	@Override
 	public List<Product> getAllProducts() {
 		return (List<Product>) repo.findAll();
+	}
+	
+	public List<Product> getAllRawProducts() {
+		List<Product> allProducts = (List<Product>) repo.findAll();
+		List<Product> allRawProducts = new ArrayList<Product>();
+		for (Product product : allProducts) {
+		    if(product.getProduct_type().equals("raw")) {
+		    	allRawProducts.add(product);
+		    }
+		}
+		System.out.println(allRawProducts);
+		return allRawProducts;
 	}
 
 	@Override
