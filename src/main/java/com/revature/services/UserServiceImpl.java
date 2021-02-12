@@ -20,7 +20,7 @@ public class UserServiceImpl implements UserService{
 	}
 	
 	/*public User getRole(String name) {
-		return userrepo.findByRole(name);
+		return userrepo.findByRole_name(name);
 	}*/
 
 	public List<User> getUsers(){
