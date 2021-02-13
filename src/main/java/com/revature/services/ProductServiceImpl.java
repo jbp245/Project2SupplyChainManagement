@@ -30,7 +30,7 @@ public class ProductServiceImpl implements ProductService {
 		return (List<Product>) repo.findAll();
 	}
 	
-	// TODO stretch: implement it with HQL for scalability
+	// TODO stretch: implement it with HQL for scalability 
 	public List<Product> getAllRawProducts() {
 		List<Product> allProducts = (List<Product>) repo.findAll();
 		List<Product> allRawProducts = new ArrayList<Product>();
