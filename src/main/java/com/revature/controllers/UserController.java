@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -15,8 +16,10 @@ import com.revature.beans.User;
 import com.revature.services.UserService;
 import java.util.List;
 
-@CrossOrigin
+
 @RestController
+@CrossOrigin
+//@CrossOrigin(origins = "*")
 public class UserController {
 	
 	@Autowired
@@ -35,10 +38,10 @@ public class UserController {
 		return userservice.getUsers();
 	}
 	
-	/*@GetMapping(value = "/users/search")
-	public User getUserByRole(@RequestParam(required = true) String name) {
+	@GetMapping(value = "/users/search")
+	public List<User> getUserByRole(@RequestParam(required = true) String name) {
 		return userservice.getRole(name);
-	}*/
+	}
 	
 	@PostMapping(value = "/users", consumes = "application/json", produces = "application/json")
 	public User addUser(@RequestBody User a) {
@@ -63,6 +66,14 @@ public class UserController {
 	public boolean deleteUser(@PathVariable("id") int id) {
 		System.out.println("Executing Delete");
 		return userservice.deleteUser(id);
+	}
+	
+	
+	@GetMapping(value = "/users/login/{name}/{password}", produces = "application/json")
+	public List<User> login(@PathVariable("name") String name, @PathVariable("password") String password) {
+		System.out.println("Executing Login");
+		
+		return userservice.login(name, password);
 	}
 	
 
