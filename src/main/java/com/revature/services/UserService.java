@@ -12,7 +12,7 @@ public interface UserService {
 	
 	public User getUser(int id);
 	
-	//public User getRole(String name);
+	public List<User> getRole(String name);
 	
 	//public User getUser(String name);
 	
@@ -26,7 +26,7 @@ public interface UserService {
 	
 	public boolean deleteUser(int id);
 	
-	//public boolean login(String name, String password);
+	public List<User> login(String name, String password);
 	
 
 }
