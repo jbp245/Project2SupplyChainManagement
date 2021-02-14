@@ -20,9 +20,11 @@ import org.springframework.web.bind.annotation.RestController;
 import com.revature.beans.DistributionInvoice;
 import com.revature.beans.Product;
 import com.revature.beans.PurchaseOrder;
+import com.revature.beans.SupplierInvoice;
 import com.revature.services.DistributionInvoiceService;
 import com.revature.services.ProductService;
 import com.revature.services.PurchaseOrderService;
+import com.revature.services.SupplierInvoiceService;
 
 /**
  * @author james
@@ -40,6 +42,9 @@ public class PurchaseOrderController {
 	
 	@Autowired
 	ProductService ps;
+	
+	@Autowired
+	SupplierInvoiceService sis;
 	
 	@GetMapping(value = "/purchaseorder/{id}")
 	public PurchaseOrder getPurchaseOrder(@PathVariable("id") int id) { return pos.get(id); }
@@ -65,6 +70,21 @@ public class PurchaseOrderController {
 		di = dis.addDistributionInvoice(di);
 		
 		PurchaseOrder po = new PurchaseOrder("order_placed", date, null, null, di.getId(), 0, "distributor");
+		System.out.println(po);
+		return pos.add(po);
+	}
+	
+	@PostMapping(value = "/purchaseorder/supplier_order", consumes = "application/json", produces = "application/json")
+	public PurchaseOrder addDistributorPurchaseOrder(@RequestBody SupplierInvoice si) {
+		Date date = new Date(System.currentTimeMillis());
+		si.setDate_issued(date);
+		
+		Product product = ps.getProduct(si.getProduct_id());
+		si.setTotal_cost(si.getOrder_quantity() * product.getProduct_cost());
+		
+		si = sis.addSupplierInvoice(si);
+		
+		PurchaseOrder po = new PurchaseOrder("order_placed", date, null, null, 0, si.getId(), "supplier");
 		System.out.println(po);
 		return pos.add(po);
 	}

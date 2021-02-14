@@ -29,7 +29,7 @@ public class SupplierInvoice {
 	private int order_quantity;
 	
 	@Column(columnDefinition = "number")
-	private float total_cost;
+	private double total_cost;
 	
 	private Date date_issued;
 	
@@ -37,7 +37,17 @@ public class SupplierInvoice {
 	public SupplierInvoice() {
 		super();
 	}
-
+	
+	public SupplierInvoice(int product_id, int supplier_id, int user_id, int order_quantity, double total_cost,
+			Date date_issued) {
+		super();
+		this.product_id = product_id;
+		this.supplier_id = supplier_id;
+		this.user_id = user_id;
+		this.order_quantity = order_quantity;
+		this.total_cost = total_cost;
+		this.date_issued = date_issued;
+	}
 
 	public int getId() {
 		return id;
@@ -89,12 +99,12 @@ public class SupplierInvoice {
 	}
 
 	
-	public float getTotal_cost() {
+	public double getTotal_cost() {
 		return total_cost;
 	}
 
 
-	public void setTotal_cost(float total_cost) {
+	public void setTotal_cost(double total_cost) {
 		this.total_cost = total_cost;
 	}
 
