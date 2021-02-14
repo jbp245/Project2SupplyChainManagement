@@ -70,6 +70,10 @@ public class PurchaseOrderController {
 		di = dis.addDistributionInvoice(di);
 		
 		PurchaseOrder po = new PurchaseOrder("order_placed", date, null, null, di.getId(), 0, "distributor");
+		if(pos.checkInventory(product.getId(), di.getOrder_quantity()).equals("enough in stock")) {
+			po.setOrder_shipped_date(date);
+			System.out.println("\n\nEnough in stock");
+		}
 		System.out.println(po);
 		return pos.add(po);
 	}
