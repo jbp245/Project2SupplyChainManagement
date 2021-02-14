@@ -27,8 +27,6 @@ public class PurchaseOrder {
 	@GeneratedValue(generator = "order_seq", strategy = GenerationType.SEQUENCE)
 	private int id;	
 	
-	
-	private String product_offered;
 	private String order_status;
 	//@Temporal(TemporalType.DATE)
 	private Date order_placed_date;
@@ -49,7 +47,6 @@ public class PurchaseOrder {
 
 	/**
 	 * ID-LESS CONSTRUCTOR
-	 * @param product_offered
 	 * @param order_status
 	 * @param order_placed_date
 	 * @param order_completed_date
@@ -58,10 +55,9 @@ public class PurchaseOrder {
 	 * @param invoice_id
 	 * @param order_type
 	 */
-	public PurchaseOrder(String product_offered, String order_status, Date order_placed_date, Date order_completed_date,
+	public PurchaseOrder(String order_status, Date order_placed_date, Date order_completed_date,
 			Date order_shipped_date, int order_quantity, int invoice_id, String order_type) {
 		super();
-		this.product_offered = product_offered;
 		this.order_status = order_status;
 		this.order_placed_date = order_placed_date;
 		this.order_completed_date = order_completed_date;
@@ -83,20 +79,6 @@ public class PurchaseOrder {
 	 */
 	public void setId(int id) {
 		this.id = id;
-	}
-
-	/**
-	 * @return the product_offered
-	 */
-	public String getProduct_offered() {
-		return product_offered;
-	}
-
-	/**
-	 * @param product_offered the product_offered to set
-	 */
-	public void setProduct_offered(String product_offered) {
-		this.product_offered = product_offered;
 	}
 
 	/**
@@ -199,7 +181,7 @@ public class PurchaseOrder {
 
 	@Override
 	public String toString() {
-		return "PurchaseOrder [id=" + id + ", product_offered=" + product_offered + ", order_status=" + order_status
+		return "PurchaseOrder [id=" + id + ", order_status=" + order_status
 				+ ", order_placed_date=" + order_placed_date + ", order_completed_date=" + order_completed_date
 				+ ", order_shipped_date=" + order_shipped_date + ", order_quantity=" + order_quantity + ", invoice_id="
 				+ invoice_id + ", order_type=" + order_type + "]";
