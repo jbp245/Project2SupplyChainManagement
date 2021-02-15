@@ -29,7 +29,6 @@ public class SupplierInvoiceController {
 	
 	@GetMapping(value = "/supplier_invoice", produces = "application/json")
 	public List<SupplierInvoice> getAllActors() {
-		System.out.println("Getting all Actors");
 		return suppinvservice.getAllSuppInvoice();
 	}
 	

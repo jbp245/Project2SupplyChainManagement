@@ -23,5 +23,6 @@ public interface PurchaseOrderService {
 	public boolean delete(int id);
 	public PurchaseOrder orderNeededRawGoods(SupplierInvoice invoice);
 	public String checkInventory(int product_id, int quantity_needed);
+	public Product increaseInventoryWhenSuppOrderReceived(PurchaseOrder change);
 
 }
