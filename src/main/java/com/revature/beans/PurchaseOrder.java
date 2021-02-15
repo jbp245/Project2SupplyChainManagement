@@ -29,11 +29,8 @@ public class PurchaseOrder {
 	
 	
 	private String order_status;
-	//@Temporal(TemporalType.DATE)
 	private Date order_placed_date;
-	//@Temporal(TemporalType.DATE)
 	private Date order_completed_date;
-	//@Temporal(TemporalType.DATE)
 	private Date order_shipped_date;
 	private int distribution_invoice_id;
 	private int supplier_invoice_id;
