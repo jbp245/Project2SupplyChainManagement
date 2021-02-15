@@ -18,53 +18,127 @@ public class User {
 	@GeneratedValue(generator = "USER_SEQ", strategy = GenerationType.SEQUENCE)
 	private int id;
 	
-	
 	private String role_name;
 	
 	@Column(unique=true, name="username")
 	private String username;
 	private String pass;
 	
+	private int supplier_id;
+	private int distributor_id;
+	
+	/**
+	 * DEFAULT CONSTRUCTOR
+	 */
 	public User() {
 		super();
 	}
+	
+	/**
+	 * ID-LESS CONSTRUCTOR
+	 * @param role_name
+	 * @param username
+	 * @param pass
+	 * @param supplier_id
+	 * @param distributor_id
+	 */
+	public User(String role_name, String username, String pass, int supplier_id, int distributor_id) {
+		super();
+		this.role_name = role_name;
+		this.username = username;
+		this.pass = pass;
+		this.supplier_id = supplier_id;
+		this.distributor_id = distributor_id;
+	}
 
+	/**
+	 * @return the id
+	 */
 	public int getId() {
 		return id;
 	}
 
+	/**
+	 * @param id the id to set
+	 */
 	public void setId(int id) {
 		this.id = id;
 	}
 
+	/**
+	 * @return the role_name
+	 */
 	public String getRole_name() {
 		return role_name;
 	}
 
-	public void setRole_name(String rolename) {
-		this.role_name = rolename;
+	/**
+	 * @param role_name the role_name to set
+	 */
+	public void setRole_name(String role_name) {
+		this.role_name = role_name;
 	}
 
+	/**
+	 * @return the username
+	 */
 	public String getUsername() {
 		return username;
 	}
 
+	/**
+	 * @param username the username to set
+	 */
 	public void setUsername(String username) {
 		this.username = username;
 	}
 
+	/**
+	 * @return the pass
+	 */
 	public String getPass() {
 		return pass;
 	}
 
+	/**
+	 * @param pass the pass to set
+	 */
 	public void setPass(String pass) {
 		this.pass = pass;
 	}
 
+	/**
+	 * @return the supplier_id
+	 */
+	public int getSupplier_id() {
+		return supplier_id;
+	}
+
+	/**
+	 * @param supplier_id the supplier_id to set
+	 */
+	public void setSupplier_id(int supplier_id) {
+		this.supplier_id = supplier_id;
+	}
+
+	/**
+	 * @return the distributor_id
+	 */
+	public int getDistributor_id() {
+		return distributor_id;
+	}
+
+	/**
+	 * @param distributor_id the distributor_id to set
+	 */
+	public void setDistributor_id(int distributor_id) {
+		this.distributor_id = distributor_id;
+	}
+
 	@Override
 	public String toString() {
-		return "User [id=" + id + ", role_name=" + role_name + ", username=" + username + ", pass=" + pass + "]";
+		return "User [id=" + id + ", role_name=" + role_name + ", username=" + username + ", pass=" + pass
+				+ ", supplier_id=" + supplier_id + ", distributor_id=" + distributor_id + "]";
 	}
-	
-	
+
 }
