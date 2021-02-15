@@ -32,7 +32,6 @@ public class PurchaseOrder {
 	private Date order_placed_date;
 	private Date order_completed_date;
 	private Date order_shipped_date;
-	private int order_quantity;
 	private int distribution_invoice_id;
 	private int supplier_invoice_id;
 	private String order_type;
@@ -51,20 +50,18 @@ public class PurchaseOrder {
 	 * @param order_placed_date
 	 * @param order_completed_date
 	 * @param order_shipped_date
-	 * @param order_quantity
 	 * @param distribution_invoice_id
 	 * @param supplier_invoice_id
 	 * @param order_type
 	 */
 	public PurchaseOrder(String order_status, Date order_placed_date, Date order_completed_date,
-			Date order_shipped_date, int order_quantity, int distribution_invoice_id, int supplier_invoice_id,
+			Date order_shipped_date, int distribution_invoice_id, int supplier_invoice_id,
 			String order_type) {
 		super();
 		this.order_status = order_status;
 		this.order_placed_date = order_placed_date;
 		this.order_completed_date = order_completed_date;
 		this.order_shipped_date = order_shipped_date;
-		this.setOrder_quantity(order_quantity);
 		this.distribution_invoice_id = distribution_invoice_id;
 		this.supplier_invoice_id = supplier_invoice_id;
 		this.order_type = order_type;
@@ -155,22 +152,6 @@ public class PurchaseOrder {
 //	}
 
 	/**
-	 * @return the order_quantity
-	 */
-	public int getOrder_quantity() {
-		return order_quantity;
-	}
-
-
-	/**
-	 * @param order_quantity the order_quantity to set
-	 */
-	public void setOrder_quantity(int order_quantity) {
-		this.order_quantity = order_quantity;
-	}
-
-
-	/**
 	 * @return the order_type
 	 */
 	public String getOrder_type() {
@@ -204,7 +185,7 @@ public class PurchaseOrder {
 	public String toString() {
 		return "PurchaseOrder [id=" + id + ", order_status=" + order_status + ", order_placed_date=" + order_placed_date
 				+ ", order_completed_date=" + order_completed_date + ", order_shipped_date=" + order_shipped_date
-				+ ", order_quantity=" + order_quantity + ", distribution_invoice_id=" + distribution_invoice_id
+				+ ", distribution_invoice_id=" + distribution_invoice_id
 				+ ", supplier_invoice_id=" + supplier_invoice_id + ", order_type=" + order_type + "]";
 	}
 }
