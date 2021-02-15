@@ -57,7 +57,7 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService{
 		if(change.getOrder_type().equals("supplier") && change.getOrder_status().equals("order_received")) {
 			
 			increaseInventoryWhenSuppOrderReceived(change);
-			
+			checkQuantityToShipOrders();
 		}
 		return por.save(change);
 	}
