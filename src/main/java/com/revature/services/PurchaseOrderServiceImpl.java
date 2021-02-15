@@ -4,11 +4,13 @@
 package com.revature.services;
 
 import java.sql.Date;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.revature.beans.DistributionInvoice;
 import com.revature.beans.Product;
 import com.revature.beans.PurchaseOrder;
 import com.revature.beans.SupplierInvoice;
@@ -30,6 +32,9 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService{
 	
 	@Autowired
 	SupplierInvoiceService sis;
+	
+	@Autowired
+	DistributionInvoiceService dis;
 
 	@Override
 	public PurchaseOrder get(int id) {
@@ -93,6 +98,73 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService{
 		
 		PurchaseOrder po = new PurchaseOrder("order_placed", date, null, null, 0, invoice.getId(), "supplier");
 		return add(po);
+	}
+	
+	public void checkQuantityToShipOrders() {
+		List<PurchaseOrder> allOrders = getAll();
+		
+		List<PurchaseOrder> distibutorOrders = new ArrayList<>();
+		
+		for(PurchaseOrder po: allOrders) {
+			if(po.getDistribution_invoice_id() != 0) {
+				distibutorOrders.add(po);
+			}
+		}
+		
+		for(PurchaseOrder po: distibutorOrders) {
+			DistributionInvoice di = dis.getDistributionInvoice(po.getDistribution_invoice_id());
+			convertRawGoodsAndShip(di.getProduct_id(), di.getOrder_quantity(), po);
+		}
+		
+		
+	}
+	
+	public void convertRawGoodsAndShip(int product_id, int quantity_needed, PurchaseOrder po) {
+		Product p = ps.getProduct(product_id);
+		
+		int finished_product_needed = quantity_needed - p.getStock_in_warehouse();
+		
+		
+		if(finished_product_needed <= 0) {
+			p.setStock_in_warehouse(p.getStock_in_warehouse() - quantity_needed);
+			
+			Date date = new Date(System.currentTimeMillis());
+			po.setOrder_shipped_date(date);
+			update(po);
+			return;
+		}
+		
+		//calculate amount of raw goods needed
+		int corn_needed = 10 * finished_product_needed;
+		int oats_needed = 10 * finished_product_needed;
+		int sugar_needed = 1 * finished_product_needed;
+		int honey_needed = 1 * finished_product_needed;
+		
+		Product corn_in_warehouse = ps.getProduct(22);
+		Product oats_in_warehouse = ps.getProduct(21);
+		Product sugar_in_warehouse = ps.getProduct(41);
+		Product honey_in_warehouse = ps.getProduct(42);
+		
+		int corn_needed_to_order = corn_needed - corn_in_warehouse.getStock_in_warehouse(); //see how much we need to order
+		int oats_needed_to_order = oats_needed - oats_in_warehouse.getStock_in_warehouse();
+		int sugar_needed_to_order = sugar_needed - sugar_in_warehouse.getStock_in_warehouse();
+		int honey_needed_to_order = honey_needed - honey_in_warehouse.getStock_in_warehouse();
+		
+		if(corn_needed_to_order <= 0 && oats_needed_to_order <= 0 && sugar_needed_to_order  <= 0 && honey_needed_to_order <= 0) {
+			//convert raw materials to finished_product
+			corn_in_warehouse.setStock_in_warehouse(corn_in_warehouse.getStock_in_warehouse() - corn_needed);
+			oats_in_warehouse.setStock_in_warehouse(oats_in_warehouse.getStock_in_warehouse() - oats_needed);
+			sugar_in_warehouse.setStock_in_warehouse(sugar_in_warehouse.getStock_in_warehouse() - sugar_needed);
+			honey_in_warehouse.setStock_in_warehouse(honey_in_warehouse.getStock_in_warehouse() - honey_needed);
+			
+			p.setStock_in_warehouse(p.getStock_in_warehouse() + finished_product_needed);
+			p.setStock_in_warehouse(p.getStock_in_warehouse() - quantity_needed);
+			
+			Date date = new Date(System.currentTimeMillis());
+			po.setOrder_shipped_date(date);
+			update(po);
+			
+		}
 	}
 
 	@Override
