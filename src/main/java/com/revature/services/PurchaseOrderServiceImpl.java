@@ -43,13 +43,32 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService{
 
 	@Override
 	public PurchaseOrder add(PurchaseOrder a) {
+
 		return por.save(a);
 	}
 
 	@Override
 	public PurchaseOrder update(PurchaseOrder change) {
+		if(change.getOrder_type().equals("supplier") && change.getOrder_status().equals("order_received")) {
+			
+			increaseInventoryWhenSuppOrderReceived(change);
+			
+		}
 		return por.save(change);
 	}
+	
+	@Override
+	public Product increaseInventoryWhenSuppOrderReceived(PurchaseOrder change) {
+		
+		SupplierInvoice inv = sis.getSuppInvoice(change.getSupplier_invoice_id());
+		int productId = inv.getProduct_id();
+		int quantity = inv.getOrder_quantity();
+		Product product = ps.getProduct(productId);
+		product.setStock_in_warehouse(product.getStock_in_warehouse() + quantity);
+		
+		return ps.updateProduct(product);
+	}
+	
 
 	@Override
 	public boolean delete(int id) {
