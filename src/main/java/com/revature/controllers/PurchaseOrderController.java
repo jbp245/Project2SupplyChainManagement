@@ -55,6 +55,9 @@ public class PurchaseOrderController {
 	@GetMapping(value = "/purchaseorder", produces = "application/json")
 	public List<PurchaseOrder> getAllPurchaseOrders() { return pos.getAll(); }
 	
+	@GetMapping(value = "/purchaseorder/supplierPurchaseOrders", produces = "application/json")
+	public List<PurchaseOrder> getSupplierPurchaseOrders() { return pos.getSupplierPurchaseOrders(); }
+		
 	@PostMapping(value = "/purchaseorder", consumes = "application/json", produces = "application/json")
 	public PurchaseOrder addPurchaseOrder(@RequestBody PurchaseOrder a) { return pos.add(a); }
 	
