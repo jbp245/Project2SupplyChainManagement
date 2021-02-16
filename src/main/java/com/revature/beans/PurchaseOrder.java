@@ -40,7 +40,7 @@ public class PurchaseOrder {
 	
 	@OneToOne
 	@JoinColumn(name = "distribution_invoice_id")
-	private DistributionInvoice distribution_invoice;
+	private DistributionInvoice distributionInvoice;
 	
 	@OneToOne
 	@JoinColumn(name = "supplier_invoice_id")
@@ -73,7 +73,7 @@ public class PurchaseOrder {
 		this.order_completed_date = order_completed_date;
 		this.order_shipped_date = order_shipped_date;
 		this.order_type = order_type;
-		this.distribution_invoice = distribution_invoice;
+		this.distributionInvoice = distribution_invoice;
 		this.supplier_invoice = supplier_invoice;
 	}
 
@@ -193,12 +193,12 @@ public class PurchaseOrder {
 //	}
 
 	public DistributionInvoice getDistribution_invoice() {
-		return distribution_invoice;
+		return distributionInvoice;
 	}
 
 
 	public void setDistribution_invoice(DistributionInvoice distribution_invoice) {
-		this.distribution_invoice = distribution_invoice;
+		this.distributionInvoice = distribution_invoice;
 	}
 
 	public SupplierInvoice getSupplier_invoice() {
@@ -214,7 +214,7 @@ public class PurchaseOrder {
 	public String toString() {
 		return "PurchaseOrder [id=" + id + ", order_status=" + order_status + ", order_placed_date=" + order_placed_date
 				+ ", order_completed_date=" + order_completed_date + ", order_shipped_date=" + order_shipped_date
-				+ ", order_type=" + order_type + ", distribution_invoice=" + distribution_invoice
+				+ ", order_type=" + order_type + ", distributionInvoice=" + distributionInvoice
 				+ ", supplier_invoice=" + supplier_invoice + "]";
 	}
 	
