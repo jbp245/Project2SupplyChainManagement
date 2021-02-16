@@ -100,5 +100,10 @@ public class PurchaseOrderController {
 	//@Authorized
 	@DeleteMapping(value = "/purchaseorder/{id}")
 	public boolean deletePurchaseOrder(@PathVariable("id") int id) { return pos.delete(id); }
+	
+	@GetMapping(value = "/purchaseorder/distributor/{id}", produces = "application/json")
+	public List<PurchaseOrder> getPurchaseOrderByDistributorId(@PathVariable("id") int id){
+		return pos.getPurchaseOrderBySupplierId(id);
+	}
 
 }

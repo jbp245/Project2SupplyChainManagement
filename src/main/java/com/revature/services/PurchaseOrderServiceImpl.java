@@ -253,6 +253,11 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService{
 		
 		return "waiting for raw good";
 	}
+
+	@Override
+	public List<PurchaseOrder> getPurchaseOrderBySupplierId(int id) {
+		return por.findByDistributionInvoice_DistributorId(id);
+	}
 	
 	
 }
