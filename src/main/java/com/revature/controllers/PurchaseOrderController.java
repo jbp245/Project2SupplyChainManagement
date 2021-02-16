@@ -69,7 +69,7 @@ public class PurchaseOrderController {
 		
 		di = dis.addDistributionInvoice(di);
 		
-		PurchaseOrder po = new PurchaseOrder("order_placed", date, null, null, di.getId(), 0, "distributor");
+		PurchaseOrder po = new PurchaseOrder("order_placed", date, null, null, "distributor", di, sis.getSuppInvoice(0));
 		if(pos.checkInventory(product.getId(), di.getOrder_quantity()).equals("enough in stock")) {
 			po.setOrder_shipped_date(date);
 			System.out.println("\n\nEnough in stock");
@@ -88,7 +88,7 @@ public class PurchaseOrderController {
 		
 		si = sis.addSupplierInvoice(si);
 		
-		PurchaseOrder po = new PurchaseOrder("order_placed", date, null, null, 0, si.getId(), "supplier");
+		PurchaseOrder po = new PurchaseOrder("order_placed", date, null, null, "supplier", dis.getDistributionInvoice(0), si);
 		System.out.println(po);
 		return pos.add(po);
 	}

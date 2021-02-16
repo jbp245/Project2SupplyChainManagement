@@ -65,7 +65,7 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService{
 	@Override
 	public Product increaseInventoryWhenSuppOrderReceived(PurchaseOrder change) {
 		
-		SupplierInvoice inv = sis.getSuppInvoice(change.getSupplier_invoice_id());
+		SupplierInvoice inv = change.getSupplier_invoice();//sis.getSuppInvoice(change.getSupplier_invoice_id());
 		int productId = inv.getProduct_id();
 		int quantity = inv.getOrder_quantity();
 		Product product = ps.getProduct(productId);
@@ -96,7 +96,7 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService{
 		
 		invoice = sis.addSupplierInvoice(invoice);
 		
-		PurchaseOrder po = new PurchaseOrder("order_placed", date, null, null, 0, invoice.getId(), "supplier");
+		PurchaseOrder po = new PurchaseOrder("order_placed", date, null, null, "supplier", dis.getDistributionInvoice(0), invoice);
 		return add(po);
 	}
 	
