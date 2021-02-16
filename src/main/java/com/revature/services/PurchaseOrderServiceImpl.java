@@ -106,13 +106,13 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService{
 		List<PurchaseOrder> distibutorOrders = new ArrayList<>();
 		
 		for(PurchaseOrder po: allOrders) {
-			if(po.getDistribution_invoice_id() != 0) {
+			if(po.getDistribution_invoice().getId() != 0) {
 				distibutorOrders.add(po);
 			}
 		}
 		
 		for(PurchaseOrder po: distibutorOrders) {
-			DistributionInvoice di = dis.getDistributionInvoice(po.getDistribution_invoice_id());
+			DistributionInvoice di = po.getDistribution_invoice();
 			convertRawGoodsAndShip(di.getProduct_id(), di.getOrder_quantity(), po);
 		}
 		
