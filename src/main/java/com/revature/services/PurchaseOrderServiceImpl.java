@@ -9,6 +9,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.revature.beans.DistributionInvoice;
 import com.revature.beans.Product;
 import com.revature.beans.PurchaseOrder;
 import com.revature.beans.SupplierInvoice;
@@ -30,6 +31,9 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService{
 	
 	@Autowired
 	SupplierInvoiceService sis;
+	
+	@Autowired
+	DistributionInvoiceService dis;
 
 	@Override
 	public PurchaseOrder get(int id) {
@@ -60,7 +64,7 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService{
 	@Override
 	public Product increaseInventoryWhenSuppOrderReceived(PurchaseOrder change) {
 		
-		SupplierInvoice inv = sis.getSuppInvoice(change.getSupplier_invoice_id());
+		SupplierInvoice inv = change.getSupplier_invoice();//sis.getSuppInvoice(change.getSupplier_invoice_id());
 		int productId = inv.getProduct_id();
 		int quantity = inv.getOrder_quantity();
 		Product product = ps.getProduct(productId);
@@ -91,7 +95,7 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService{
 		
 		invoice = sis.addSupplierInvoice(invoice);
 		
-		PurchaseOrder po = new PurchaseOrder("order_placed", date, null, null, 0, invoice.getId(), "supplier");
+		PurchaseOrder po = new PurchaseOrder("order_placed", date, null, null, "supplier", dis.getDistributionInvoice(0), invoice);
 		return add(po);
 	}
 
