@@ -214,7 +214,7 @@ public class PurchaseOrder {
 	public String toString() {
 		return "PurchaseOrder [id=" + id + ", order_status=" + order_status + ", order_placed_date=" + order_placed_date
 				+ ", order_completed_date=" + order_completed_date + ", order_shipped_date=" + order_shipped_date
-				+ ", order_type=" + order_type + ", distribution_invoice=" + distributionInvoice
+				+ ", order_type=" + order_type + ", distributionInvoice=" + distributionInvoice
 				+ ", supplier_invoice=" + supplier_invoice + "]";
 	}
 	
