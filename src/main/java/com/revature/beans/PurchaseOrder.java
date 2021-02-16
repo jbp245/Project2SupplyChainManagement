@@ -10,6 +10,8 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToOne;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
@@ -32,9 +34,17 @@ public class PurchaseOrder {
 	private Date order_placed_date;
 	private Date order_completed_date;
 	private Date order_shipped_date;
-	private int distribution_invoice_id;
-	private int supplier_invoice_id;
+//	private int distribution_invoice_id;
+//	private int supplier_invoice_id;
 	private String order_type;
+	
+	@OneToOne
+	@JoinColumn(name = "distribution_invoice_id")
+	private DistributionInvoice distributionInvoice;
+	
+	@OneToOne
+	@JoinColumn(name = "supplier_invoice_id")
+	private SupplierInvoice supplier_invoice;
 	
 	/**
 	 * DEFAULT CONSTRUCTOR
@@ -55,16 +65,16 @@ public class PurchaseOrder {
 	 * @param order_type
 	 */
 	public PurchaseOrder(String order_status, Date order_placed_date, Date order_completed_date,
-			Date order_shipped_date, int distribution_invoice_id, int supplier_invoice_id,
-			String order_type) {
+			Date order_shipped_date, String order_type, DistributionInvoice distribution_invoice,
+			SupplierInvoice supplier_invoice) {
 		super();
 		this.order_status = order_status;
 		this.order_placed_date = order_placed_date;
 		this.order_completed_date = order_completed_date;
 		this.order_shipped_date = order_shipped_date;
-		this.distribution_invoice_id = distribution_invoice_id;
-		this.supplier_invoice_id = supplier_invoice_id;
 		this.order_type = order_type;
+		this.distributionInvoice = distribution_invoice;
+		this.supplier_invoice = supplier_invoice;
 	}
 
 	/**
@@ -73,6 +83,7 @@ public class PurchaseOrder {
 	public int getId() {
 		return id;
 	}
+
 
 	/**
 	 * @param id the id to set
@@ -165,27 +176,47 @@ public class PurchaseOrder {
 		this.order_type = order_type;
 	}
 
-	public int getDistribution_invoice_id() {
-		return distribution_invoice_id;
+//	public int getDistribution_invoice_id() {
+//		return distribution_invoice_id;
+//	}
+//
+//	public void setDistribution_invoice_id(int distribution_invoice_id) {
+//		this.distribution_invoice_id = distribution_invoice_id;
+//	}
+//
+//	public int getSupplier_invoice_id() {
+//		return supplier_invoice_id;
+//	}
+//
+//	public void setSupplier_invoice_id(int supplier_invoice_id) {
+//		this.supplier_invoice_id = supplier_invoice_id;
+//	}
+
+	public DistributionInvoice getDistribution_invoice() {
+		return distributionInvoice;
 	}
 
-	public void setDistribution_invoice_id(int distribution_invoice_id) {
-		this.distribution_invoice_id = distribution_invoice_id;
+
+	public void setDistribution_invoice(DistributionInvoice distribution_invoice) {
+		this.distributionInvoice = distribution_invoice;
 	}
 
-	public int getSupplier_invoice_id() {
-		return supplier_invoice_id;
+	public SupplierInvoice getSupplier_invoice() {
+		return supplier_invoice;
 	}
 
-	public void setSupplier_invoice_id(int supplier_invoice_id) {
-		this.supplier_invoice_id = supplier_invoice_id;
-	}
 
+	public void setSupplier_invoice(SupplierInvoice supplier_invoice) {
+		this.supplier_invoice = supplier_invoice;
+	}
+	
 	@Override
 	public String toString() {
 		return "PurchaseOrder [id=" + id + ", order_status=" + order_status + ", order_placed_date=" + order_placed_date
 				+ ", order_completed_date=" + order_completed_date + ", order_shipped_date=" + order_shipped_date
-				+ ", distribution_invoice_id=" + distribution_invoice_id
-				+ ", supplier_invoice_id=" + supplier_invoice_id + ", order_type=" + order_type + "]";
+				+ ", order_type=" + order_type + ", distributionInvoice=" + distributionInvoice
+				+ ", supplier_invoice=" + supplier_invoice + "]";
 	}
+	
+
 }

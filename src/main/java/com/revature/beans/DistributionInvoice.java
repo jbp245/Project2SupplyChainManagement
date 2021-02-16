@@ -29,8 +29,8 @@ public class DistributionInvoice {
 	@Column(columnDefinition = "number")
 	private double total_cost;
 	
-	@Column
-	private int distributor_id;
+	@Column(name = "distributor_id")
+	private int distributorId;
 	
 	@Column
 	private int order_quantity;
@@ -46,7 +46,7 @@ public class DistributionInvoice {
 		this.date_issued = date_issued;
 		this.product_id = product_id;
 		this.total_cost = total_cost;
-		this.distributor_id = distributor_id;
+		this.distributorId = distributor_id;
 		this.order_quantity = order_quantity;
 	}
 
@@ -83,11 +83,11 @@ public class DistributionInvoice {
 	}
 
 	public int getDistributor_id() {
-		return distributor_id;
+		return distributorId;
 	}
 
 	public void setDistributor_id(int distributor_id) {
-		this.distributor_id = distributor_id;
+		this.distributorId = distributor_id;
 	}
 
 	public int getOrder_quantity() {
@@ -101,7 +101,7 @@ public class DistributionInvoice {
 	@Override
 	public String toString() {
 		return "DistributionInvoice [id=" + id + ", date_issued=" + date_issued + ", product_id=" + product_id
-				+ ", total_cost=" + total_cost + ", distributor_id=" + distributor_id + ", order_quantity="
+				+ ", total_cost=" + total_cost + ", distributor_id=" + distributorId + ", order_quantity="
 				+ order_quantity + "]";
 	}
 	
