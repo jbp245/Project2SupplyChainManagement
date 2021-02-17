@@ -24,7 +24,7 @@ public class User {
 	private String username;
 	private String pass;
 	
-	private int supplier_id;
+	//private int supplier_id;
 	private int distributor_id;
 	
 	/**
@@ -42,12 +42,12 @@ public class User {
 	 * @param supplier_id
 	 * @param distributor_id
 	 */
-	public User(String role_name, String username, String pass, int supplier_id, int distributor_id) {
+	public User(String role_name, String username, String pass,  int distributor_id) {
 		super();
 		this.role_name = role_name;
 		this.username = username;
 		this.pass = pass;
-		this.supplier_id = supplier_id;
+		//this.supplier_id = supplier_id;
 		this.distributor_id = distributor_id;
 	}
 
@@ -110,16 +110,16 @@ public class User {
 	/**
 	 * @return the supplier_id
 	 */
-	public int getSupplier_id() {
+	/*public int getSupplier_id() {
 		return supplier_id;
 	}
 
 	/**
 	 * @param supplier_id the supplier_id to set
 	 */
-	public void setSupplier_id(int supplier_id) {
+	/*public void setSupplier_id(int supplier_id) {
 		this.supplier_id = supplier_id;
-	}
+	}*/
 
 	/**
 	 * @return the distributor_id
@@ -138,7 +138,7 @@ public class User {
 	@Override
 	public String toString() {
 		return "User [id=" + id + ", role_name=" + role_name + ", username=" + username + ", pass=" + pass
-				+ ", supplier_id=" + supplier_id + ", distributor_id=" + distributor_id + "]";
+				+ ", distributor_id=" + distributor_id + "]";
 	}
 
 }

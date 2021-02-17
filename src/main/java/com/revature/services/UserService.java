@@ -26,7 +26,7 @@ public interface UserService {
 	
 	public boolean deleteUser(int id);
 	
-	public List<User> login(String name, String password);
+	public User login(String name, String password);
 	
 
 }
