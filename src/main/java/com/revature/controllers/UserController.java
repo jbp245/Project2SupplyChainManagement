@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.google.gson.Gson;
 import com.revature.beans.User;
 import com.revature.services.UserService;
 import java.util.List;
@@ -69,11 +70,20 @@ public class UserController {
 	}
 	
 	
-	@GetMapping(value = "/users/login/{name}/{password}", produces = "application/json")
-	public List<User> login(@PathVariable("name") String name, @PathVariable("password") String password) {
+	@PostMapping(value = "/users/login/{name}/{password}", produces = "application/json")
+	public User login(@PathVariable("name") String name, @PathVariable("password") String password) {
+		//Gson gson = new Gson();
+		User user = new User();
 		System.out.println("Executing Login");
+		/*List<User> userdetails = ;
+		//user.setId(userdetails.get(0).getId());
 		
+		if(userdetails != null) {
+			
+		System.out.println("Userdetails: " +gson.toJson(user));
+		}*/
 		return userservice.login(name, password);
+		//return userservice.login(name, password);
 	}
 	
 
