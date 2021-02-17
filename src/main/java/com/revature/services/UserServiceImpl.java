@@ -61,18 +61,26 @@ public class UserServiceImpl implements UserService{
 			return false;
 		}
 	}
-	public List<User> login(String name, String password) {
-		String query = "SELECT u.username from users u where u.username='"+name+"' and u.pass='" +password+ "'";
-		  Query q = em.createNativeQuery(query);
-		  List<User> username = q.getResultList();
+	public User login(String name, String password) {
+		//new User();
+		//String query = "SELECT u.id , u.username username, u.role_name role_name, u.distributor_id distid  from users u where u.username='"+name+"' and u.pass='" +password+ "'";
+		
+		String query = "SELECT u.id, u.role_name, u.username, u.pass, u.distributor_id  from users u where u.username='"+name+"' and u.pass='" +password+ "'";
+		System.out.println("Query String: "+query);
+		  Query q = em.createNativeQuery(query, User.class);
+		  System.out.println("Resultset  : "+q.getResultList());
+		  if((q.getResultList().size()) > 0) {
+		  User user = (User) q.getResultList().get(0);
+		  //user.setId(user.getId());
 		  
-		  if(username.size() > 0) {
-		   System.out.println("count: " +username.get(0));
-		   return username;
+		  //if(username.size() > 0) {
+		   System.out.println("count: " +user.getId());
+		   return user;
 		  }
-		  else {
+		  
+		 else {
 			  return null;
-		  }
+		 }
 		
 	}
 
