@@ -65,7 +65,7 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService{
 
 	@Override
 	public PurchaseOrder update(PurchaseOrder change) {
-		if(change.getOrder_type().equals("supplier") && change.getOrder_status().equals("order_received")) {
+		if(change.getOrder_type().equals("supplier") && change.getOrder_status().equals("Order Completed")) {
 			
 			increaseInventoryWhenSuppOrderReceived(change);
 			checkQuantityToShipOrders();
