@@ -27,6 +27,8 @@ public class Project2DistributorOrderStepImpl {
 	public void the_user_enters_a_number_less_than_to_order(int arg1) {
 	    WebElement quantity = driver.findElement(By.id("quantity"));
 	    WebElement button = driver.findElement(By.id("getOneProductButton"));
+	    
+	    quantity.clear();
 	    quantity.sendKeys("-1");
 	    button.click();
 	}
@@ -36,7 +38,7 @@ public class Project2DistributorOrderStepImpl {
 	    WebElement error = driver.findElement(By.id("error"));
 	    
 	    try {
-			Thread.sleep(1000);
+			Thread.sleep(4000);
 		} catch (InterruptedException e) {
 			e.printStackTrace();
 		}
@@ -46,11 +48,17 @@ public class Project2DistributorOrderStepImpl {
 	
 	@When("^the user enter a number greater than (\\d+) to order$")
 	public void the_user_enter_a_number_greater_than_to_order(int arg1) {
+		 try {
+				Thread.sleep(4000);
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
 		Select distributor = new Select(driver.findElement(By.id("distributor")));
 		WebElement quantity = driver.findElement(By.id("quantity"));
 	    WebElement button = driver.findElement(By.id("getOneProductButton"));
 	    
 	    distributor.selectByIndex(1);
+	    quantity.clear();
 	    quantity.sendKeys("10");
 	    button.click();
 	}
@@ -58,7 +66,7 @@ public class Project2DistributorOrderStepImpl {
 	@Then("^the form will generate an allert saying the order was placed$")
 	public void the_form_will_generate_an_allert_saying_the_order_was_placed() {
 		try {
-			Thread.sleep(1000);
+			Thread.sleep(4000);
 		} catch (InterruptedException e) {
 			e.printStackTrace();
 		}
