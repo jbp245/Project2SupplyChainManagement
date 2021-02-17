@@ -4,6 +4,7 @@
 package com.revature.controllers;
 
 import java.sql.Date;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -55,6 +56,9 @@ public class PurchaseOrderController {
 	@GetMapping(value = "/purchaseorder", produces = "application/json")
 	public List<PurchaseOrder> getAllPurchaseOrders() { return pos.getAll(); }
 	
+	@GetMapping(value = "/purchaseorder/supplierPurchaseOrders", produces = "application/json")
+	public List<PurchaseOrder> getSupplierPurchaseOrders() { return pos.getSupplierPurchaseOrders(); }
+		
 	@PostMapping(value = "/purchaseorder", consumes = "application/json", produces = "application/json")
 	public PurchaseOrder addPurchaseOrder(@RequestBody PurchaseOrder a) { return pos.add(a); }
 	
@@ -96,6 +100,26 @@ public class PurchaseOrderController {
 	
 	@PutMapping(value = "/purchaseorder/{id}", consumes = "application/json")
 	public PurchaseOrder updatePurchaseOrder(@PathVariable("id") int id, @RequestBody PurchaseOrder change) { change.setId(id); return pos.update(change); }
+	
+	
+	@PutMapping(value = "/purchaseorder/orderCompleted", consumes = "application/json")//108
+	public List<PurchaseOrder> updatePurchaseOrderOrderStatus(@RequestBody List<Integer> ids) { 
+
+		System.out.println(ids);
+		List<PurchaseOrder> updated_orders = new ArrayList<>();
+		for(Integer p_id: ids) {
+			Date date = new Date(System.currentTimeMillis());
+			PurchaseOrder po = pos.get(p_id);
+			po.setOrder_status("Order Completed");
+			po.setOrder_completed_date(date);
+			po = pos.update(po);
+			updated_orders.add(po);
+		}
+ 
+		return updated_orders; 
+		
+	}
+	
 	
 	//@Authorized
 	@DeleteMapping(value = "/purchaseorder/{id}")

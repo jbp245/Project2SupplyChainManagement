@@ -45,6 +45,17 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService{
 	public List<PurchaseOrder> getAll() {
 		return (List<PurchaseOrder>) por.findAll();
 	}
+	
+	public List<PurchaseOrder> getSupplierPurchaseOrders(){
+		List<PurchaseOrder> allPurchaseOrders = (List<PurchaseOrder>) por.findAll();
+		List<PurchaseOrder> allSupplierPurchaseOrders = new ArrayList<PurchaseOrder>();
+		for (PurchaseOrder po : allPurchaseOrders) {
+		    if(po.getOrder_type().equals("supplier")) {
+		    	allSupplierPurchaseOrders.add(po);
+		    }
+		}
+		return allSupplierPurchaseOrders;
+	}
 
 	@Override
 	public PurchaseOrder add(PurchaseOrder a) {

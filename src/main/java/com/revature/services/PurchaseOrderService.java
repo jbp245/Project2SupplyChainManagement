@@ -18,6 +18,7 @@ public interface PurchaseOrderService {
 
 	public PurchaseOrder get(int id);
 	public List<PurchaseOrder> getAll();
+	public List<PurchaseOrder> getSupplierPurchaseOrders();
 	public PurchaseOrder add(PurchaseOrder order);
 	public PurchaseOrder update(PurchaseOrder change);
 	public boolean delete(int id);
