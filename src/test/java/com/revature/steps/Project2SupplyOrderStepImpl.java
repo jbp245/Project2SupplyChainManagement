@@ -50,6 +50,13 @@ public class Project2SupplyOrderStepImpl {
 	    
 	    units.clear();
 	    units.sendKeys("10");
+	    
+	    try {
+			Thread.sleep(4000);
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
+	    
 	    submit.click();
 	}
 
@@ -61,7 +68,7 @@ public class Project2SupplyOrderStepImpl {
 			e.printStackTrace();
 		}
 		
-		Assert.assertEquals("Order submitted", driver.switchTo().alert().getText());
+		Assert.assertEquals("Order Submitted", driver.switchTo().alert().getText());
 		driver.switchTo().alert().accept();
 	}
 }
