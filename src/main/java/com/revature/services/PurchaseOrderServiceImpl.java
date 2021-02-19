@@ -5,6 +5,7 @@ package com.revature.services;
 
 import java.sql.Date;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -124,10 +125,49 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService{
 		
 		for(PurchaseOrder po: distibutorOrders) {
 			DistributionInvoice di = po.getDistribution_invoice();
-			convertRawGoodsAndShip(di.getProduct_id(), di.getOrder_quantity(), po);
+			if(po.getOrder_status().equals("order_placed")) {
+				System.out.println("\n\n\nPurchase order waiting to ship: " + po);
+				System.out.println("distirbuton Invoice waiting to ship: " + di);
+				convertRawGoodsAndShip(di.getProduct_id(), di.getOrder_quantity(), po);
+			}	
 		}
 		
+		convertRawGoodsToFinishedProduct();
+	}
+	
+	public void convertRawGoodsToFinishedProduct() {
+		System.out.println("Converting raw to finished product");
+		Product corn_in_warehouse = ps.getProduct(22);
+		Product oats_in_warehouse = ps.getProduct(21);
+		Product sugar_in_warehouse = ps.getProduct(41);
+		Product honey_in_warehouse = ps.getProduct(42);
 		
+		List<Integer> amount_to_produce = new ArrayList<>();
+		amount_to_produce.add(corn_in_warehouse.getStock_in_warehouse() / 10);
+		amount_to_produce.add(oats_in_warehouse.getStock_in_warehouse() / 10);
+		amount_to_produce.add(sugar_in_warehouse.getStock_in_warehouse());
+		amount_to_produce.add(honey_in_warehouse.getStock_in_warehouse());
+		
+		System.out.println("amount to produce: " + amount_to_produce);
+		
+		int amount_to_make = Collections.min(amount_to_produce);
+		
+		System.out.println("Amount to make: " + amount_to_make);
+		
+		corn_in_warehouse.setStock_in_warehouse(corn_in_warehouse.getStock_in_warehouse() - (amount_to_make * 10));
+		oats_in_warehouse.setStock_in_warehouse(oats_in_warehouse.getStock_in_warehouse() - (amount_to_make * 10));
+		sugar_in_warehouse.setStock_in_warehouse(sugar_in_warehouse.getStock_in_warehouse() - amount_to_make);
+		honey_in_warehouse.setStock_in_warehouse(honey_in_warehouse.getStock_in_warehouse() - amount_to_make);
+		
+		ps.updateProduct(corn_in_warehouse);
+		ps.updateProduct(oats_in_warehouse);
+		ps.updateProduct(sugar_in_warehouse);
+		ps.updateProduct(honey_in_warehouse);
+		
+		Product p = ps.getProduct(23);
+		p.setStock_in_warehouse(p.getStock_in_warehouse() + amount_to_make);
+		
+		ps.updateProduct(p);
 	}
 	
 	public void convertRawGoodsAndShip(int product_id, int quantity_needed, PurchaseOrder po) {
@@ -138,9 +178,11 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService{
 		
 		if(finished_product_needed <= 0) {
 			p.setStock_in_warehouse(p.getStock_in_warehouse() - quantity_needed);
+			ps.updateProduct(p);
 			
 			Date date = new Date(System.currentTimeMillis());
 			po.setOrder_shipped_date(date);
+			po.setOrder_status("order_shipped");
 			update(po);
 			return;
 		}
@@ -168,11 +210,18 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService{
 			sugar_in_warehouse.setStock_in_warehouse(sugar_in_warehouse.getStock_in_warehouse() - sugar_needed);
 			honey_in_warehouse.setStock_in_warehouse(honey_in_warehouse.getStock_in_warehouse() - honey_needed);
 			
+			ps.updateProduct(corn_in_warehouse);
+			ps.updateProduct(oats_in_warehouse);
+			ps.updateProduct(sugar_in_warehouse);
+			ps.updateProduct(honey_in_warehouse);
+			
 			p.setStock_in_warehouse(p.getStock_in_warehouse() + finished_product_needed);
 			p.setStock_in_warehouse(p.getStock_in_warehouse() - quantity_needed);
+			ps.updateProduct(p);
 			
 			Date date = new Date(System.currentTimeMillis());
 			po.setOrder_shipped_date(date);
+			po.setOrder_status("order_shipped");
 			update(po);
 			
 		}
@@ -187,6 +236,7 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService{
 		
 		if(finished_product_needed <= 0) {
 			p.setStock_in_warehouse(p.getStock_in_warehouse() - quantity_needed);
+			ps.updateProduct(p);
 			return "enough in stock";
 		}
 		
@@ -213,8 +263,14 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService{
 			sugar_in_warehouse.setStock_in_warehouse(sugar_in_warehouse.getStock_in_warehouse() - sugar_needed);
 			honey_in_warehouse.setStock_in_warehouse(honey_in_warehouse.getStock_in_warehouse() - honey_needed);
 			
+			ps.updateProduct(corn_in_warehouse);
+			ps.updateProduct(oats_in_warehouse);
+			ps.updateProduct(sugar_in_warehouse);
+			ps.updateProduct(honey_in_warehouse);
+			
 			p.setStock_in_warehouse(p.getStock_in_warehouse() + finished_product_needed);
 			p.setStock_in_warehouse(p.getStock_in_warehouse() - quantity_needed);
+			ps.updateProduct(p);
 			return "enough in stock";
 		}
 		
