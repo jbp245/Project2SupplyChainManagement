@@ -1,12 +1,20 @@
 package com.revature.beans;
 
-import javax.persistence.Column;
+/*import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToOne;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
+import org.hibernate.annotations.CascadeType;
+import org.hibernate.annotations.F*/
+
+import javax.persistence.*;
+
+
 
 @Entity
 @Table(name = "distributor")
@@ -26,18 +34,21 @@ public class Distributor {
 	
 	@Column
 	private String phone_number;
-
+	
 	public Distributor() {
 		super();
 	}
 
-	public Distributor(int id, String name, String address, String phone_number) {
+	public Distributor(String name, String address, String phone_number) {
 		super();
-		this.id = id;
+		//this.id = id;
 		this.name = name;
 		this.address = address;
 		this.phone_number = phone_number;
 	}
+
+	
+
 
 	public int getId() {
 		return id;
@@ -73,8 +84,7 @@ public class Distributor {
 
 	@Override
 	public String toString() {
-		return "Distributor [id=" + id + ", name=" + name + ", address=" + address + ", phone_number=" + phone_number
-				+ "]";
+		return "Distributor [id=" + id + ", name=" + name + ", address=" + address + ", phone_number=" + phone_number+"]";
 	}
 	
 	

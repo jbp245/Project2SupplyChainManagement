@@ -1,5 +1,7 @@
 package com.revature.controllers;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -8,14 +10,13 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.google.gson.Gson;
+import com.revature.beans.Distributor;
 import com.revature.beans.User;
+import com.revature.services.DistributorService;
 import com.revature.services.UserService;
-import java.util.List;
 
 
 @RestController
@@ -26,7 +27,9 @@ public class UserController {
 	@Autowired
 	UserService userservice;
 	
-
+	@Autowired
+	DistributorService distservice;
+	
 	@GetMapping(value = "/users/{id}")
 	public User getUser(@PathVariable("id") String id) {
 		int usrid = Integer.parseInt(id);
@@ -55,13 +58,6 @@ public class UserController {
 		return userservice.updateUser(change);
 	}
 	
-	/*@PutMapping(value = "/users/{username, password}", consumes = "application/json")
-	public boolean login(@PathVariable("username") String name, @PathVariable("password") String password) {
-		return userservice.login(name, password);
-	}*/
-	
-	
-	
 	//@Authorized
 	@DeleteMapping(value = "/users/{id}")
 	public boolean deleteUser(@PathVariable("id") int id) {
@@ -72,20 +68,17 @@ public class UserController {
 	
 	@PostMapping(value = "/users/login/{name}/{password}", produces = "application/json")
 	public User login(@PathVariable("name") String name, @PathVariable("password") String password) {
-		//Gson gson = new Gson();
-		User user = new User();
-		System.out.println("Executing Login");
-		/*List<User> userdetails = ;
-		//user.setId(userdetails.get(0).getId());
 		
-		if(userdetails != null) {
-			
-		System.out.println("Userdetails: " +gson.toJson(user));
-		}*/
+		//User user = new User();
+		System.out.println("Executing Login");
 		return userservice.login(name, password);
-		//return userservice.login(name, password);
 	}
 	
+	@PostMapping(value = "/users/validateuser/{username}", produces = "application/json")
+	public User validateUser(@PathVariable("username") String username) {
+		System.out.println("Eexecuting validateUser");
+		return userservice.validateUser(username);
+	}
 
 
 }
