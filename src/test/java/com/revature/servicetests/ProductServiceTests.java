@@ -1,5 +1,6 @@
 package com.revature.servicetests;
 
+import static org.mockito.Mockito.mockitoSession;
 import static org.mockito.Mockito.when;
 
 import java.util.ArrayList;
@@ -12,6 +13,7 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
+import org.mockito.Mockito;
 import org.mockito.junit.MockitoJUnitRunner;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -98,6 +100,27 @@ public class ProductServiceTests {
 		when(repo.save(product1)).thenReturn(product1);
 		
 		Assert.assertEquals(product1, service.updateProduct(product1));
+	}
+	
+	@Test
+	public void deleteProductTest() {
+		Product product1 = new Product(1, "corn", 5, 20, "raw");
+		Optional<Product> product = Optional.of(product1);
+		
+		when(repo.findById(product1.getId())).thenReturn(product);
+		Mockito.doNothing().when(repo).delete(product1);
+		Assert.assertTrue(service.deleteProduct(product1.getId()));
+	}
+	
+	@Test
+	public void getFalseWhenErrorIsThrownDeleting() {
+		Product product1 = new Product(1, "corn", 5, 20, "raw");
+		Optional<Product> product = Optional.of(product1);
+		
+		when(repo.findById(product1.getId())).thenReturn(product);
+		Mockito.doThrow(IllegalArgumentException.class).when(repo).delete(product1);
+		
+		Assert.assertFalse(service.deleteProduct(product1.getId()));
 	}
 	
 }
