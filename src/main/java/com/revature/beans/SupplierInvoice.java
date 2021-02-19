@@ -38,6 +38,20 @@ public class SupplierInvoice {
 		super();
 	}
 	
+	public SupplierInvoice(int id, int product_id, int supplier_id, int user_id, int order_quantity, double total_cost,
+			Date date_issued) {
+		super();
+		this.id = id;
+		this.product_id = product_id;
+		this.supplier_id = supplier_id;
+		this.user_id = user_id;
+		this.order_quantity = order_quantity;
+		this.total_cost = total_cost;
+		this.date_issued = date_issued;
+	}
+
+
+
 	public SupplierInvoice(int product_id, int supplier_id, int user_id, int order_quantity, double total_cost,
 			Date date_issued) {
 		super();
