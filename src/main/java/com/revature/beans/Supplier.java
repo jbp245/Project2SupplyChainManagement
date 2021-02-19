@@ -26,6 +26,15 @@ public class Supplier {
 		super();
 	}
 	
+	public Supplier(int id, String name, String address, String phone_number, int product_id) {
+		super();
+		this.id = id;
+		this.name = name;
+		this.address = address;
+		this.phone_number = phone_number;
+		this.product_id = product_id;
+	}
+
 	public Supplier(String name, String address, String phone_number, int product_id) {
 		super();
 		this.name = name;

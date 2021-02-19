@@ -65,6 +65,6 @@ public class Project2LoginSetpImpl {
 			e.printStackTrace();
 		}
 		
-		Assert.assertEquals("Post Warehouse Management", driver.getTitle());
+		Assert.assertEquals("Post Warehouse Management Login", driver.getTitle());
 	}
 }
