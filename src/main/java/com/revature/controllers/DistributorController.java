@@ -12,7 +12,10 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.revature.beans.Distributor;
+import com.revature.beans.User;
+import com.revature.beans.UserDistributor;
 import com.revature.services.DistributorService;
+import com.revature.services.UserService;
 
 @CrossOrigin
 @RestController
@@ -20,6 +23,9 @@ public class DistributorController {
 
 	@Autowired
 	private DistributorService ds;
+	
+	@Autowired
+	private UserService userservice;
 	
 	@GetMapping(value = "/distributor/{id}", produces = "application/json")
 	public Distributor getDistributor(@PathVariable("id") int id) {
@@ -41,5 +47,31 @@ public class DistributorController {
 		update.setId(id);
 		return ds.updateDistributor(update);
 	}
+	@PostMapping(value = "/users/adduser", consumes = "application/json", produces = "application/json")
+	public User addUserDistributor(@RequestBody UserDistributor userdist) {
+		
+		System.out.println("From Frontend: " +userdist);
+		
+		String rolename = userdist.getRole_name();
+		String username = userdist.getUsername();
+		String userpass = userdist.getPass();
+		String distname = userdist.getName();
+		String address = userdist.getAddress();
+		String phonenum = userdist.getPhone_number();
+		
+		Distributor distributor = new Distributor(distname, address, phonenum);
+		distributor = ds.addDistributor(distributor);
+		int dist_id = distributor.getId();
+		
+		
+		User user = new User(rolename,username,userpass,dist_id);
+		user = userservice.addUser(user);
+		
+		
+		return user;
+		
+	}
+	
+	
 	
 }

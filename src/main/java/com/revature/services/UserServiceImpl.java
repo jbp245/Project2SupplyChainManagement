@@ -4,12 +4,15 @@ import java.math.BigInteger;
 import java.util.List;
 
 import javax.persistence.EntityManager;
+import javax.persistence.ParameterMode;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
+import javax.persistence.StoredProcedureQuery;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.revature.beans.Distributor;
 import com.revature.beans.User;
 import com.revature.repositories.UserRepo;
 
@@ -18,6 +21,7 @@ public class UserServiceImpl implements UserService{
 	
 	@Autowired
 	UserRepo userrepo;
+	
 	
 	@PersistenceContext
 	public EntityManager em;
@@ -45,6 +49,7 @@ public class UserServiceImpl implements UserService{
 	}
 	
 	public User addUser(User user) {
+		System.out.println("Inside Add User");
 		return userrepo.save(user);
 	}
 	
@@ -62,18 +67,13 @@ public class UserServiceImpl implements UserService{
 		}
 	}
 	public User login(String name, String password) {
-		//new User();
-		//String query = "SELECT u.id , u.username username, u.role_name role_name, u.distributor_id distid  from users u where u.username='"+name+"' and u.pass='" +password+ "'";
-		
+				
 		String query = "SELECT u.id, u.role_name, u.username, u.pass, u.distributor_id  from users u where u.username='"+name+"' and u.pass='" +password+ "'";
 		System.out.println("Query String: "+query);
 		  Query q = em.createNativeQuery(query, User.class);
 		  System.out.println("Resultset  : "+q.getResultList());
 		  if((q.getResultList().size()) > 0) {
 		  User user = (User) q.getResultList().get(0);
-		  //user.setId(user.getId());
-		  
-		  //if(username.size() > 0) {
 		   System.out.println("count: " +user.getId());
 		   return user;
 		  }
@@ -83,7 +83,21 @@ public class UserServiceImpl implements UserService{
 		 }
 		
 	}
-
+	
+	public User validateUser(String username) {
+		String query = "SELECT * FROM USERS u where u.username='"+username+"'";
+		System.out.println("Query String : "+query);
+		Query q = em.createNativeQuery(query, User.class);
+		  System.out.println("Resultset  : "+q.getResultList());
+		  if((q.getResultList().size()) > 0) {
+		  User user = (User) q.getResultList().get(0);
+		  return user;
+		  }
+		  else {
+			  return null;
+		  }
 	}
+	
+}
 
 

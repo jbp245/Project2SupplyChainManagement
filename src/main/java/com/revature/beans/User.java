@@ -8,6 +8,8 @@ import javax.persistence.Id;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
+
+
 @Entity(name = "users")        
 @Table(name = "users")
 public class User {
@@ -23,9 +25,8 @@ public class User {
 	@Column(unique=true, name="username")
 	private String username;
 	private String pass;
-	
-	//private int supplier_id;
 	private int distributor_id;
+	
 	
 	/**
 	 * DEFAULT CONSTRUCTOR
@@ -42,14 +43,15 @@ public class User {
 	 * @param supplier_id
 	 * @param distributor_id
 	 */
-	public User(String role_name, String username, String pass,  int distributor_id) {
+	public User(String role_name, String username, String pass, int distributor_id) {
 		super();
 		this.role_name = role_name;
 		this.username = username;
 		this.pass = pass;
-		//this.supplier_id = supplier_id;
 		this.distributor_id = distributor_id;
 	}
+
+	
 
 	/**
 	 * @return the id
@@ -107,38 +109,17 @@ public class User {
 		this.pass = pass;
 	}
 
-	/**
-	 * @return the supplier_id
-	 */
-	/*public int getSupplier_id() {
-		return supplier_id;
-	}
-
-	/**
-	 * @param supplier_id the supplier_id to set
-	 */
-	/*public void setSupplier_id(int supplier_id) {
-		this.supplier_id = supplier_id;
-	}*/
-
-	/**
-	 * @return the distributor_id
-	 */
 	public int getDistributor_id() {
 		return distributor_id;
 	}
 
-	/**
-	 * @param distributor_id the distributor_id to set
-	 */
 	public void setDistributor_id(int distributor_id) {
 		this.distributor_id = distributor_id;
 	}
 
 	@Override
 	public String toString() {
-		return "User [id=" + id + ", role_name=" + role_name + ", username=" + username + ", pass=" + pass
-				+ ", distributor_id=" + distributor_id + "]";
+		return "User [id=" + id + ", role_name=" + role_name + ", username=" + username + ", pass=" + pass +"]";
 	}
 
 }
