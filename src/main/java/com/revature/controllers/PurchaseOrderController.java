@@ -76,6 +76,7 @@ public class PurchaseOrderController {
 		PurchaseOrder po = new PurchaseOrder("order_placed", date, null, null, "distributor", di, sis.getSuppInvoice(0));
 		if(pos.checkInventory(product.getId(), di.getOrder_quantity()).equals("enough in stock")) {
 			po.setOrder_shipped_date(date);
+			po.setOrder_status("order_shipped");
 			System.out.println("\n\nEnough in stock");
 		}
 		System.out.println(po);
