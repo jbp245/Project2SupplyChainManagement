@@ -34,8 +34,6 @@ public class PurchaseOrder {
 	private Date order_placed_date;
 	private Date order_completed_date;
 	private Date order_shipped_date;
-//	private int distribution_invoice_id;
-//	private int supplier_invoice_id;
 	private String order_type;
 	
 	@OneToOne
@@ -52,7 +50,6 @@ public class PurchaseOrder {
 	public PurchaseOrder() {
 		super();
 	}
-
 
 	/**
 	 * ID-LESS CONSTRUCTOR
@@ -148,20 +145,6 @@ public class PurchaseOrder {
 		this.order_shipped_date = order_shipped_date;
 	}
 
-//	/**
-//	 * @return the invoice_id
-//	 */
-//	public int getInvoice_id() {
-//		return invoice_id;
-//	}
-//
-//	/**
-//	 * @param invoice_id the invoice_id to set
-//	 */
-//	public void setInvoice_id(int invoice_id) {
-//		this.invoice_id = invoice_id;
-//	}
-
 	/**
 	 * @return the order_type
 	 */
@@ -175,22 +158,6 @@ public class PurchaseOrder {
 	public void setOrder_type(String order_type) {
 		this.order_type = order_type;
 	}
-
-//	public int getDistribution_invoice_id() {
-//		return distribution_invoice_id;
-//	}
-//
-//	public void setDistribution_invoice_id(int distribution_invoice_id) {
-//		this.distribution_invoice_id = distribution_invoice_id;
-//	}
-//
-//	public int getSupplier_invoice_id() {
-//		return supplier_invoice_id;
-//	}
-//
-//	public void setSupplier_invoice_id(int supplier_invoice_id) {
-//		this.supplier_invoice_id = supplier_invoice_id;
-//	}
 
 	public DistributionInvoice getDistribution_invoice() {
 		return distributionInvoice;
