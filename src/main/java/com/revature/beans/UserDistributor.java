@@ -17,13 +17,23 @@ public class UserDistributor {
 	private int distributor_id;
 	
 	public UserDistributor() {
-		
+		super();
 	}
-	public UserDistributor(String role_name, String username, String pass,String name, String address, String phone_number) {
+	public UserDistributor(int distributor_id, String role_name, String username, String pass,String name, String address, String phone_number) {
+		super();
 		this.role_name = role_name;
 		this.username = username;
 		this.pass = pass;
-		//this.distributor_id = distributor_id;
+		this.distributor_id = distributor_id;
+		this.name = name;
+		this.address = address;
+		this.phone_number = phone_number;
+	}
+	public UserDistributor(String role_name, String username, String pass,String name, String address, String phone_number) {
+		super();
+		this.role_name = role_name;
+		this.username = username;
+		this.pass = pass;
 		this.name = name;
 		this.address = address;
 		this.phone_number = phone_number;

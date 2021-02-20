@@ -47,7 +47,15 @@ public class Distributor {
 		this.phone_number = phone_number;
 	}
 
-	
+	//Added for Testing
+	public Distributor(int id, String name, String address, String phone_number) {
+		super();
+		this.id = id;
+		this.name = name;
+		this.address = address;
+		this.phone_number = phone_number;
+	}
+
 
 
 	public int getId() {
