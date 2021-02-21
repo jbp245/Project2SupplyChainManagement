@@ -80,6 +80,7 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService{
 		SupplierInvoice inv = change.getSupplier_invoice();//sis.getSuppInvoice(change.getSupplier_invoice_id());
 		int productId = inv.getProduct_id();
 		int quantity = inv.getOrder_quantity();
+		
 		Product product = ps.getProduct(productId);
 		product.setStock_in_warehouse(product.getStock_in_warehouse() + quantity);
 		
@@ -109,6 +110,7 @@ public class PurchaseOrderServiceImpl implements PurchaseOrderService{
 		invoice = sis.addSupplierInvoice(invoice);
 		
 		PurchaseOrder po = new PurchaseOrder("order_placed", date, null, null, "supplier", dis.getDistributionInvoice(0), invoice);
+		
 		return add(po);
 	}
 	
