@@ -51,7 +51,15 @@ public class User {
 		this.distributor_id = distributor_id;
 	}
 
-	
+	//added for UserController TestCase
+	public User(int id, String role_name, String username, String pass, int distributor_id) {
+		super();
+		this.id = id;
+		this.role_name = role_name;
+		this.username = username;
+		this.pass = pass;
+		this.distributor_id = distributor_id;
+	}
 
 	/**
 	 * @return the id
