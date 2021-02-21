@@ -42,8 +42,8 @@ public class UserController {
 		return userservice.getUsers();
 	}
 	
-	@GetMapping(value = "/users/search")
-	public List<User> getUserByRole(@RequestParam(required = true) String name) {
+	@GetMapping(value = "/users/search/{name}")
+	public List<User> getUserByRole(@PathVariable("name") String name) {
 		return userservice.getRole(name);
 	}
 	
@@ -76,7 +76,7 @@ public class UserController {
 	
 	@PostMapping(value = "/users/validateuser/{username}", produces = "application/json")
 	public User validateUser(@PathVariable("username") String username) {
-		System.out.println("Eexecuting validateUser");
+		System.out.println("Executing validateUser");
 		return userservice.validateUser(username);
 	}
 

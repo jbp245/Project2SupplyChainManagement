@@ -35,6 +35,8 @@ public class DistributorController {
 	
 	@GetMapping(value = "/distributor", produces = "application/json")
 	public List<Distributor> getDistributor() {
+		System.out.println("Inside getDistributor");
+		System.out.println(ds.getAllDistributors());
 		return ds.getAllDistributors();
 	}
 	
