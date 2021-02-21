@@ -5,6 +5,7 @@ package com.revature.servicetests;
 
 import static org.mockito.Mockito.when;
 
+import java.sql.Date;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -16,9 +17,16 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 
+import com.revature.beans.DistributionInvoice;
+import com.revature.beans.Product;
 import com.revature.beans.PurchaseOrder;
+import com.revature.beans.SupplierInvoice;
 import com.revature.repositories.PurchaseOrderRepo;
+import com.revature.services.DistributionInvoiceServiceImpl;
+import com.revature.services.DistributorServiceImpl;
+import com.revature.services.ProductServiceImpl;
 import com.revature.services.PurchaseOrderServiceImpl;
+import com.revature.services.SupplierInvoiceServiceImpl;
 
 /**
  * @author james
@@ -32,6 +40,15 @@ public class PurchaseOrderServiceTest {
 	
 	@MockBean
 	PurchaseOrderRepo repo;
+	
+	@MockBean
+	ProductServiceImpl productService;
+	
+	@MockBean
+	SupplierInvoiceServiceImpl supplierService;
+	
+	@MockBean
+	DistributionInvoiceServiceImpl distributorService;
 	
 	@Test
 	public void getPurchaseOrders() {
@@ -54,16 +71,19 @@ public class PurchaseOrderServiceTest {
 	public void getPurchaseOrderByIdTest() {
 		List<PurchaseOrder> purch_ords = new ArrayList<>();
 
-		PurchaseOrder purch_ord = new PurchaseOrder("order_placed",null, null, null, "distributor", null, null);
+		Date date = new Date(System.currentTimeMillis());
+		SupplierInvoice si = new SupplierInvoice();
+		DistributionInvoice di = new DistributionInvoice();
+		PurchaseOrder purch_ord = new PurchaseOrder();
 		purch_ords.add(purch_ord);
 		PurchaseOrder purch_ord2 = new PurchaseOrder();
 		purch_ords.add(purch_ord2);
-		PurchaseOrder purch_ord3 = new PurchaseOrder();
+		PurchaseOrder purch_ord3 = new PurchaseOrder("order_placed",date, date, date, "distributor", di, si);
 		purch_ords.add(purch_ord3);
 		
 		when(repo.findById(3)).thenReturn(Optional.of(purch_ord3));
 		
-		Assert.assertEquals(purch_ord3, service.getPurchaseOrderBySupplierId(3));
+		Assert.assertEquals(purch_ord3, service.get(3));
 	}
 	
 	@Test
@@ -77,7 +97,7 @@ public class PurchaseOrderServiceTest {
 	
 	@Test
 	public void updatePurchaseOrderTest() {
-		PurchaseOrder purch_ord = new PurchaseOrder();
+		PurchaseOrder purch_ord = new PurchaseOrder("order_placed",null, null, null, "distributor", null, null);
 		
 		when(repo.save(purch_ord)).thenReturn(purch_ord);
 		
@@ -105,5 +125,61 @@ public class PurchaseOrderServiceTest {
 		
 		Assert.assertFalse(service.delete(purch_ord.getId()));
 	}
+	
+	@Test
+	public void getSupplierPurchaseOrderTest() {
+		List<PurchaseOrder> purch_ords = new ArrayList<>();
+
+		Date date = new Date(System.currentTimeMillis());
+		SupplierInvoice si = new SupplierInvoice();
+		DistributionInvoice di = new DistributionInvoice();
+		PurchaseOrder purch_ord = new PurchaseOrder("order_placed",date, date, date, "supplier", di, si);
+		purch_ords.add(purch_ord);
+		PurchaseOrder purch_ord2 = new PurchaseOrder("order_placed",date, date, date, "supplier", di, si);
+		purch_ords.add(purch_ord2);
+		PurchaseOrder purch_ord3 = new PurchaseOrder("order_placed",date, date, date, "distributor", di, si);
+		purch_ords.add(purch_ord3);
+		
+		when(repo.findAll()).thenReturn(purch_ords);
+		
+		Assert.assertEquals(2, service.getSupplierPurchaseOrders().size());
+	}
+	
+	@Test
+	public void increaseInventoryWhenSuppOrderReceivedTest() {
+		SupplierInvoice si = new SupplierInvoice();
+		si.setProduct_id(1);
+		si.setOrder_quantity(5);
+		PurchaseOrder purch_ord = new PurchaseOrder("order_placed",null, null, null, "distributor", null, si);
+		Product product = new Product(1, "test", 22, 10, "raw");
+		
+		Product updatedProduct = new Product(1, "test", 22, 15, "raw");
+		
+		when(productService.getProduct(1)).thenReturn(product);
+		when(productService.updateProduct(product)).thenReturn(updatedProduct);
+		
+		Assert.assertEquals(updatedProduct, service.increaseInventoryWhenSuppOrderReceived(purch_ord));
+	}
+//	
+//	@Test
+//	public void orderNeededRawGoodsTest() {
+//		Date date = new Date(System.currentTimeMillis());
+//		SupplierInvoice invoice = new SupplierInvoice();
+//		invoice.setProduct_id(1);
+//		invoice.setOrder_quantity(5);
+//		invoice.setTotal_cost(110);
+//		invoice.setDate_issued(date);
+//		Product product = new Product(1, "test", 22, 10, "raw");
+//		PurchaseOrder purch_ord = new PurchaseOrder("order_placed",date, null, null, "supplier", null, invoice);
+//		System.out.println(purch_ord);
+//		
+//		when(supplierService.addSupplierInvoice(invoice)).thenReturn(invoice);
+//		when(distributorService.getDistributionInvoice(0)).thenReturn(null);
+//		when(productService.getProduct(1)).thenReturn(product);
+//		when(repo.save(purch_ord)).thenReturn(purch_ord);
+//		
+//		
+//		Assert.assertEquals(purch_ord, service.orderNeededRawGoods(invoice));
+//	}
 
 }
