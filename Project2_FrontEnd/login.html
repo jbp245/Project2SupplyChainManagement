@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cereal For Coders Warehouse Management</title>
+
+    
+    <link rel = "stylesheet" type = "text/css" href = "styles/login.css" />
+  
+
+</head>
+<body onload="loggedIn();">
+    <div><h1>Cereal For Coders Warehouse Management System</h1></div>
+    <div id="welcome"></div>
+    
+    <div class="vertical-menu">
+     
+        <p><a id="add" class="active" style="display:none" href=# onclick="adduser();">Add User</a></p>
+        <p><a id="place" style="display:none" href=# onclick="placeorder();">Placing Order</a></p>
+        <p><a id="manage" style="display:none" href=# onclick="manageorder();">Managing Orders</a></p>
+        <p><a id="warehouse" style="display:none" href=# onclick="ware_details();">Warehouse Details</a></p>
+        <p><a id="disorddetails" style="display:none" href=# onclick="show_orderform();">Order Form</a></p>
+        <p><a id="orderdetails" style="display:none" href=# onclick="show_orderdetails();">Order Details</a></p>
+
+        <!--<p><a href=# >Messages<div id="msgcount" style="visibility:hidden"></div></a></p>-->
+        <a href="logout.html" onclick="logout();">SignOut</a>
+
+    </div>
+
+   
+    <div id = "dispuserpage" class="divalign">    
+
+    </div>
+
+</body>
+<script src="jsfiles/project1.js"></script>
+</html>

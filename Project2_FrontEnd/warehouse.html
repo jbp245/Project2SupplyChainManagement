@@ -1,0 +1,93 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <!-- Required meta tags -->
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <!-- Bootstrap CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-BmbxuPwQa2lc/FVzBcNJ7UAyJxM6wuqIj61tLrc4wSX0szH/Ev+nYRRuWlolflfl" crossorigin="anonymous">
+
+  <title>Cereal For Coders SCMS - Warehouse Inventory</title>
+</head>
+
+<body>
+  <div class="container">
+    <h1>Cereal For Coders Supply Chain Management System</h1>
+    <h3>Warehouse Inventory</h3>
+    <table class="table table-bordered" id = "tbl_body">
+      <thead>
+          <tr>
+              <th scope="col">#</th>
+              <th scope="col">ID</th>
+              <th scope="col">Name</th>
+              <th scope="col">Type</th>
+              <th scope="col">Quantity</th>
+              <th scope="col">Cost</th>
+          </tr>
+      </thead>
+      <tbody>
+      </tbody>
+  </table>
+    <!-- <p>Id - name - type - quantity - cost</p> -->
+    <div class="border" id="productsDiv"></div>
+
+  </div>
+
+  <!-- <script src="warehouse.js"></script> -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/js/bootstrap.bundle.min.js"
+    integrity="sha384-b5kHyXgcpbZJO/tY9Ul7kGkf1S0CWuKcCD38l8YkeH8z8QjE0GmW1gYU5S9FOnJ0"
+    crossorigin="anonymous"></script>
+</body>
+<script>
+
+  function getAllProductsOnPageLoad(){
+    let xhttp = new XMLHttpRequest();
+
+    xhttp.onreadystatechange = function() {
+        if(this.readyState == 4 && this.status == 200) {
+            let response = JSON.parse(this.responseText);
+            console.log(response);
+            let len = response.length;
+            let counter = 1;
+            let table_body = document.getElementById("tbl_body") 
+            response.forEach(element => {
+                let row = table_body.insertRow();
+                row.setAttribute("onclick","inspect()",0)
+                
+                let row_num = row.insertCell();
+                row_num.innerHTML = counter;
+                counter++; 
+
+                let id_row = row.insertCell();
+                id_row.innerHTML = `${element.id}`;
+
+                let product_name_row = row.insertCell();
+                product_name_row.innerHTML = `${element.product_name}`
+
+                let product_type_row = row.insertCell();
+                product_type_row.innerHTML = `${element.product_type}`
+
+                let product_stock_row = row.insertCell();
+                product_stock_row.innerHTML = `${element.stock_in_warehouse}`
+
+                let product_cost_row = row.insertCell();
+                product_cost_row.innerHTML = `${element.product_cost}`
+
+
+            })
+        }
+    }
+
+    let url = `http://localhost:8080/product`;
+    xhttp.open("GET", url, true);
+    xhttp.send();
+  }
+  getAllProductsOnPageLoad()
+
+
+
+</script>
+
+</html>

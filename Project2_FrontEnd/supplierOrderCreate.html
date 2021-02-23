@@ -1,0 +1,208 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <!-- Required meta tags -->
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <!-- Bootstrap CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-BmbxuPwQa2lc/FVzBcNJ7UAyJxM6wuqIj61tLrc4wSX0szH/Ev+nYRRuWlolflfl" crossorigin="anonymous">
+
+  <title>Warehouse</title>
+
+  <style>
+      #error{
+          color: red;
+      }
+  </style>
+</head>
+
+<body>
+  <div class="container">
+    <h1>Supply Order Creation</h1>
+    
+    <!-- <label for="supplier">Select the supplier you are ordering from</label><br>
+    <select name="supplier" id="supplier"><br>
+    </select><br><br><br> -->
+	
+	<div class="input-group mb-3">
+		<div class="input-group-prepend">
+			<span class="input-group-text" id="basic-addon1">Select the supplier you are ordering from</span>
+		</div>
+		<select onchange="showProductInfo()" class="form-select form-select-sm" aria-label=".form-select-sm example" name="supplier"
+			id="supplier">
+		</select>
+     </div>
+
+    <!-- <label for="product">Select the product you are ordering for</label><br>
+    <select name="product" id="product"><br>
+    </select><br> -->
+	
+	<div class="input-group mb-3">
+            <!-- <div class="input-group-prepend">
+                <span class="input-group-text" id="basic-addon1">Select a product</span>
+            </div>
+            <select class="form-select form-select-sm" aria-label=".form-select-sm example" name="product" id="product"
+                value="1">
+                 <option value="1">Honey Bunches of Oats</option>
+            </select> -->
+
+            <h5 id="product_info"></h5>
+
+    </div>
+
+    <!-- <label for="">Product Quantity</label><br>
+    <input id="quantity" type="text"><br> -->
+
+	<div class="input-group mb-3">
+		<div class="input-group-prepend">
+			<span class="input-group-text" id="basic-addon1">How many units?</span>
+		</div>
+		<input id="quantity" type="number" class="form-control" aria-describedby="basic-addon1" value="1" min="1">
+    </div>
+
+    <!-- <input id="createOrder" type="submit"> -->
+	
+	<button onclick="submitOrder()" id="submitProductOrderButton" type="button" class="btn btn-primary">Submit
+            Order</button>
+    <h3 id="error"></h3>
+  </div>
+
+  <!-- <script src="warehouse.js"></script> -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/js/bootstrap.bundle.min.js"
+    integrity="sha384-b5kHyXgcpbZJO/tY9Ul7kGkf1S0CWuKcCD38l8YkeH8z8QjE0GmW1gYU5S9FOnJ0"
+    crossorigin="anonymous"></script>
+</body>
+
+<script>
+    function submitOrder(){
+        let order_quantity = document.getElementById("quantity").value
+        // let supplier_id = document.getElementById("supplier").value
+        // let product_id = document.getElementById("product").value
+        let supplier_value = document.getElementById("supplier").value;
+        let split = supplier_value.split(",");
+        let supplier_id = split[0];
+        let product_id = split[1];
+        console.log("order_quantity: " + order_quantity)
+        console.log("supplier_id: " + supplier_id)
+        console.log("product_id: " + product_id)
+
+        if(order_quantity <= 0){
+            let error = document.getElementById("error");
+            error.innerHTML = "You must order a quantity of 1 or more";
+            return;
+        }
+
+        document.getElementById("error").innerHTML = "";
+
+        requestBody = {
+                    "supplier_id" : supplier_id,
+                    "product_id" : product_id,
+                    "order_quantity" : order_quantity
+                }
+
+        let xhttp = new XMLHttpRequest();
+
+        xhttp.onreadystatechange = function() {
+            if(this.readyState == 4 && this.status == 200) {
+                let response = JSON.parse(this.responseText);
+                console.log(response);
+
+                window.alert("Order Submitted");
+            }
+        }
+
+        let url = `http://localhost:8080/purchaseorder/supplier_order`;
+        xhttp.open("POST", url, true);
+        xhttp.setRequestHeader('Content-Type','application/json');
+        xhttp.send(JSON.stringify(requestBody));
+    }
+
+    function showProductInfo(){
+        let supplier_value = document.getElementById("supplier").value;
+        let split = supplier_value.split(",");
+        let supplier_id = split[0];
+        let product_id = split[1];
+        let product_info = document.getElementById("product_info");
+
+        console.log("Supplier_id: " + supplier_id);
+        console.log("Product_id: " + product_id);
+        product_info.innerHTML = "Product_id: " + product_id;
+
+        let xhttp = new XMLHttpRequest();
+
+        xhttp.onreadystatechange = function() {
+            if(this.readyState == 4 && this.status == 200) {
+                let product = JSON.parse(this.responseText);
+                let product_info = document.getElementById("product_info");
+
+                product_info.innerHTML = `Product Name: ${product.product_name} <br>Product Cost per unit: $${product.product_cost} <br> Stock in warehouse: ${product.stock_in_warehouse}`;
+
+            }
+        }
+
+        let url = `http://localhost:8080/product/${product_id}`;
+        xhttp.open("GET", url, true);
+
+        xhttp.send();
+
+    }
+
+    function load_suppliers(){
+        let xhttp = new XMLHttpRequest();
+
+        xhttp.onreadystatechange = function() {
+            if(this.readyState == 4 && this.status == 200) {
+                let suppliers = JSON.parse(this.responseText);
+                console.log(suppliers);
+                let select = document.getElementById("supplier");
+
+                suppliers.forEach(element => {
+                    if(!element.name.includes("Discontinued")){
+                        let option = document.createElement("option");
+                        option.setAttribute("value", `${element.id},${element.product_id}`);
+                        option.innerHTML = `${element.name}`;
+
+                        select.appendChild(option);
+                    }
+                });
+
+                showProductInfo();
+            }
+        }
+
+        let url = `http://localhost:8080/supplier`;
+        xhttp.open("GET", url, true);
+
+        xhttp.send();
+    }
+    load_suppliers()
+
+    // function load_products(){
+    //     let xhttp = new XMLHttpRequest();
+
+    //     xhttp.onreadystatechange = function() {
+    //         if(this.readyState == 4 && this.status == 200) {
+    //             let products = JSON.parse(this.responseText);
+    //             console.log(products);
+    //             let select = document.getElementById("product");
+
+    //             products.forEach(element => {
+    //                 let option = document.createElement("option");
+    //                 option.setAttribute("value", `${element.id},${element.product_id}`);
+    //                 option.innerHTML = `${element.product_name}`
+    //                 select.appendChild(option);
+    //             });
+    //         }
+    //     }
+
+    //     let url = `http://localhost:8080/rawproduct`;
+    //     xhttp.open("GET", url, true);
+    //     xhttp.send();
+    // }
+    // load_products()
+
+    // let createOrder = document.getElementById("createOrder")
+    // createOrder.addEventListener("click", submitOrder)
+</script>

@@ -1,0 +1,192 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <!-- Required meta tags -->
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <!-- Bootstrap CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-BmbxuPwQa2lc/FVzBcNJ7UAyJxM6wuqIj61tLrc4wSX0szH/Ev+nYRRuWlolflfl" crossorigin="anonymous">
+
+  <title>Supply Order View/Update</title>
+  <style>
+	    th {
+            text-align: center;
+        }
+
+        .container2 {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+  </style>
+</head>
+
+<body>
+  <div class="container">
+    <h1>Supply Order View/Update</h1>
+	<table class="table table-bordered" id="ordersHere">
+            <thead>
+                <tr>
+                    <th scope="col"><strong>#</strong></th>
+                    <th scope="col">ID</th>
+                    <th scope="col">Pro. Name</th>
+                    <th scope="col">Quantity</th>
+                    <th scope="col">Status</th>
+                    <th scope="col">Type</th>
+                    <th scope="col">Recieved</th>   
+                </tr>
+            </thead>
+            <tbody id="tbl">
+                <tr id = "tbl_rows">
+                </tr>
+            </tbody>
+        </table>
+		
+        <button onclick="submit_order_received();" id="confirmation" type="button" class="btn btn-primary">Confirm Recieved</button>
+    <!-- <div id="ordersHere"></div> -->
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/js/bootstrap.bundle.min.js"
+    integrity="sha384-b5kHyXgcpbZJO/tY9Ul7kGkf1S0CWuKcCD38l8YkeH8z8QjE0GmW1gYU5S9FOnJ0"
+    crossorigin="anonymous"></script>
+</body>
+
+<script>
+
+  function load_supplier_orders(){
+    let xhttp = new XMLHttpRequest();
+    xhttp.onreadystatechange = function() {
+        if(this.readyState == 4 && this.status == 200) {
+          let orders = JSON.parse(this.responseText);
+          console.log(orders);
+			
+          let counter = 1;
+          let ordersHere = document.getElementById("ordersHere");
+
+          orders.forEach(element => {
+            let row = ordersHere.insertRow();
+            
+            let row_num = row.insertCell();
+              row_num.innerHTML = `<div class="container2"><strong>${counter}</strong></div>`;
+              counter++;
+              
+            let id_row = row.insertCell();
+              id_row.innerHTML = `${element.id}`;
+
+            let product_name_row = row.insertCell();
+
+            let productName
+            switch(element.supplier_invoice.product_id){
+              case 21: productName = "Oats" 
+                break;
+              case 22: productName = "Corn" 
+                break;
+              case 41: productName = "Sugar" 
+                break;
+              case 42: productName = "Honey" 
+                break;
+            }
+              product_name_row.innerHTML = productName;
+
+            let quantity_row = row.insertCell();
+              quantity_row.innerHTML = `${element.supplier_invoice.order_quantity}`;
+              
+            let status_row = row.insertCell();
+              status_row.innerHTML = `${element.order_status}`
+              status_row.id=`${element.id},${element.order_status}`
+              
+            let type_row = row.insertCell();
+              type_row.innerHTML = `${element.order_type}`
+              
+            let received_row = row.insertCell();
+              if (element.order_status == "Order Completed"){
+                  // should be empty
+              } else if (element.order_status == "order_received"){
+                  received_row.innerHTML = `<div class="container2"><input class="form-check-input" type="checkbox" id="checkboxNoLabel"
+                    value="${element.id},${element.order_status}" aria-label="" checked disabled="disabled"></div>`;
+              } else {
+                  received_row.innerHTML = `<div class="container2"><input class="form-check-input" type="checkbox" id="checkboxNoLabel"
+                    value="${element.id},${element.order_status}" aria-label=""></div>`;
+            }
+
+          });
+		  
+      }
+      //dont really know what this method does
+	  addUpdateEventListeners()
+    }
+
+    let url = `http://localhost:8080/purchaseorder/supplierPurchaseOrders`;
+    xhttp.open("GET", url, true);
+
+    xhttp.send();
+  }
+  load_supplier_orders()
+
+  function addUpdateEventListeners(){
+    let updateButtons = document.querySelectorAll(".updateButton")
+    for (let i = 0 ; i < updateButtons.length; i++) {
+      updateButtons[i].addEventListener('click' , updateOrder) ; 
+      console.log("reached")
+    }
+  }
+
+  function updateOrder(e){
+    console.log("e.target.id: " + e.target.id)
+
+    let xhttp = new XMLHttpRequest();
+
+    let product = {
+      "id": e.target.id,
+      "order_status": "order_received"
+    }
+
+    xhttp.onreadystatechange = function() {
+        if(this.readyState == 4 && this.status == 200) {
+            let response = JSON.parse(this.responseText);
+            console.log(response);
+        }
+    }
+
+    let url = `http://localhost:8080/purchaseorder/` + e.target.id;
+    xhttp.open("PUT", url, true);
+    xhttp.setRequestHeader('Content-Type','application/json');
+    xhttp.send(JSON.stringify(product));
+  }
+
+  function submit_order_received() {
+    var array = []
+    var checkboxes = document.querySelectorAll('input[type=checkbox]:checked')
+
+    console.log(checkboxes);
+    for (var i = 0; i < checkboxes.length; i++) {
+        console.log(`checkbox number ${i}: ${checkboxes[i].value}`);
+        array.push(Number(checkboxes[i].value.split(",")[0]));
+            //Jeff
+            console.log(checkboxes[i].value.split(",")[1]);
+    }
+
+    console.log(array);
+    console.log(JSON.stringify(array));
+    
+    let xhttp = new XMLHttpRequest();
+
+    xhttp.onreadystatechange = function() {
+        if(this.readyState == 4 && this.status == 200) {
+            let response = JSON.parse(this.responseText);
+            console.log(`Attempted PUT for: ${response}`);
+            //location.reload();
+
+            document.getElementById("tbl").innerHTML = "";
+            load_supplier_orders();
+        }
+    }
+    
+    let url = `http://localhost:8080/purchaseorder/orderCompleted`;
+    xhttp.open("PUT", url, true);
+    xhttp.setRequestHeader('Content-Type', 'application/json');
+    xhttp.send(JSON.stringify(array));
+  }
+</script>

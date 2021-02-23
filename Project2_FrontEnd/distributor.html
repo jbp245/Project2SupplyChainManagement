@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-BmbxuPwQa2lc/FVzBcNJ7UAyJxM6wuqIj61tLrc4wSX0szH/Ev+nYRRuWlolflfl" crossorigin="anonymous">
+
+    <style>
+        th {
+            text-align: center;
+        }
+
+        .container2 {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+    </style>
+    <title>Cereal For Coders Distributor</title>
+</head>
+
+<body onload="get_current_user(); load_orders();">
+    <div class="container">
+        <h1>Cereal For Coders Consumer Brands</h1>
+        <h3 id="dist_welcome">Distributor Profile: </h3>
+        <!-- <p>Summary Statistics (to include: total # orders, by order type, by status, #received, total quantity) might implement as bottom row or something</p> -->
+        <!-- <p>TODO: check received</p> -->
+        <table class="table table-bordered" id="tbl_body">
+            <thead>
+                <tr>
+                    <th scope="col"><strong>#</strong></th>
+                    <th scope="col">Invoice ID</th>
+                    <th scope="col">Status</th>
+                    <th scope="col">Received</th>
+                    <th scope="col">Quantity</th>
+                    <th scope="col">Date Placed</th>
+                    <th scope="col">Date Shipped</th>
+                    
+                </tr>
+            </thead>
+            <tbody id="tbl">
+                <tr id = "tbl_rows">
+                </tr>
+            </tbody>
+        </table>
+
+        <button onclick="submit_order_received();" id="confirmation" type="button" class="btn btn-primary">Confirm Received</button>
+		
+	</div>
+</body>
+<script>
+
+    
+
+    function submit_order_received() {
+        var array = []
+        var checkboxes = document.querySelectorAll('input[type=checkbox]:checked')
+
+        console.log(checkboxes);
+        for (var i = 0; i < checkboxes.length; i++) {
+            console.log(`checkbox number ${i}: ${checkboxes[i].value}`);
+            array.push(Number(checkboxes[i].value.split(",")[0]));
+            //Jeff
+            console.log(checkboxes[i].value.split(",")[1]);
+        }
+
+        console.log(array);
+        console.log(JSON.stringify(array));
+
+        let xhttp = new XMLHttpRequest();
+
+        xhttp.onreadystatechange = function() {
+            if(this.readyState == 4 && this.status == 200) {
+                let response = JSON.parse(this.responseText);
+                console.log(`Attempted PUT for: ${response}`);
+                //location.reload();
+
+                //need to fix for async
+                document.getElementById("tbl").innerHTML = "";
+                load_orders();
+            }
+        }
+        
+        let url = `http://localhost:8080/purchaseorder/orderCompleted`;
+        xhttp.open("PUT", url, true);
+        xhttp.setRequestHeader('Content-Type', 'application/json');
+        xhttp.send(JSON.stringify(array));
+    }
+
+    function get_distributor_name(id){
+
+        //console.log(`expecting id of 1, got :${id}`);
+
+        let xhttp = new XMLHttpRequest();
+
+        xhttp.onreadystatechange = function() {
+            if(this.readyState == 4 && this.status == 200) {
+                let response = JSON.parse(this.responseText);
+                console.log(response);
+
+                let change = document.getElementById("dist_welcome");
+                change.innerText = `Distributor Profile: ${response.name}`;
+            }
+        }
+        
+        let url = `http://localhost:8080/distributor/${id}`;
+        xhttp.open("GET", url, true);
+        xhttp.setRequestHeader('Content-Type', 'application/json');
+        xhttp.send();
+
+    }
+
+    function get_current_user(){
+        console.log("URL: "+window.location.href);
+        const queryString = window.location.search;
+        console.log(queryString);
+        const urlParams = new URLSearchParams(queryString);
+        userid = urlParams.get('id');
+    }
+
+    function load_orders() {
+
+        let xhttp = new XMLHttpRequest();
+
+        xhttp.onreadystatechange = function() {
+            if(this.readyState == 4 && this.status == 200) {
+                let response = JSON.parse(this.responseText);
+                console.log(response);
+                
+                //TODO: if response.size > 0 execute forEach
+                let counter = 1;
+                let table_body = document.getElementById("tbl_body") 
+                response.forEach(element => {
+                    let row = table_body.insertRow();
+                    
+                    let row_num = row.insertCell();
+                    row_num.innerHTML = `<div class="container2"><strong>${counter}</strong></div>`;
+                    counter++; 
+
+                    let id_row = row.insertCell();
+                    id_row.innerHTML = `${element.id}`;
+
+                    let status_row = row.insertCell();
+                    status_row.innerHTML = `${element.order_status}`;
+                    status_row.setAttribute("id", `status_row_${element.id}`)
+
+                    let received_row = row.insertCell();
+                    if (element.order_status == "Order Completed"){
+                        // should be empty
+                    } else if (element.order_status == "order_received"){
+                        received_row.innerHTML = `<div class="container2"><input class="form-check-input" type="checkbox" id="checkboxNoLabel"
+                            value="${element.id}|${element.order_status}" aria-label="" checked disabled="disabled"></div>`;
+                    } else {
+                        received_row.innerHTML = `<div class="container2"><input class="form-check-input" type="checkbox" id="checkboxNoLabel"
+                                value="${element.id},status_row_${element.id}" aria-label=""></div>`;
+                    }
+
+                    let quantity_row = row.insertCell();
+                    quantity_row.innerHTML = `${element.distribution_invoice.order_quantity}`;
+
+                    let placed_row = row.insertCell();
+                    placed_row.innerHTML = `${element.order_placed_date}`;
+
+                    // let product_cost_row = row.insertCell();
+                    // product_cost_row.innerHTML = `${element.product_cost}`;                   
+
+                    let shipped_row = row.insertCell();
+                    shipped_row.innerHTML = `${element.order_shipped_date}`;
+                })
+                console.log(`about to run get_distributor_name() ${response[0].distribution_invoice.distributor_id}`)
+                // want to replace 0 to make more dynamic
+                get_distributor_name(response[0].distribution_invoice.distributor_id);
+            }
+        }
+    
+    let temp = userid;
+    // need to take in some id dynamically
+    let url = `http://localhost:8080/purchaseorder/distributor/${temp}`;
+    xhttp.open("GET", url, true);
+    xhttp.send();
+    }
+</script>
+
+</html>

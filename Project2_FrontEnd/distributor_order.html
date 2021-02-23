@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-BmbxuPwQa2lc/FVzBcNJ7UAyJxM6wuqIj61tLrc4wSX0szH/Ev+nYRRuWlolflfl" crossorigin="anonymous">
+
+    <title>Cereal For Coders Product Order</title>
+
+    <style>
+        #error{
+            color: red;
+        }
+    </style>
+</head>
+
+<body onload="load_elements()">
+    <div class="container">
+        <h1>Cereal For Coders Consumer Brands</h1>
+        <h3>Product Order Form</h3>
+
+        <div class="input-group mb-3">
+            <div class="input-group-prepend">
+                <span class="input-group-text" id="basic-addon1">Select a distributor</span>
+            </div>
+            <select class="form-select form-select-sm" aria-label=".form-select-sm example" name="distributor"
+                id="distributor">
+            </select>
+        </div>
+
+        <div class="input-group mb-3">
+            <div class="input-group-prepend">
+                <span class="input-group-text" id="basic-addon1">Select a product</span>
+            </div>
+            <select class="form-select form-select-sm" aria-label=".form-select-sm example" name="product" id="product"
+                value="1">
+                <!-- <option value="1">Honey Bunches of Oats</option> -->
+            </select>
+        </div>
+
+        <div class="input-group mb-3">
+            <div class="input-group-prepend">
+                <span class="input-group-text" id="basic-addon1">How many boxes?</span>
+            </div>
+            <input id="quantity" type="number" class="form-control" aria-describedby="basic-addon1" value="1" min="1">
+        </div>
+
+        <button onclick="submit_order()" id="getOneProductButton" type="button" class="btn btn-primary">Submit
+            Order</button>
+        
+        <h3 id="error"></h3>
+    </div>
+    
+</body>
+<script>
+
+    function submit_order() {
+        let distributor_id = document.getElementById("distributor").value;
+        let product_id = document.getElementById("product").value;
+        let quantity = document.getElementById("quantity").value;
+
+        if(quantity <= 0){
+            let error = document.getElementById("error");
+            error.innerHTML = "You must order a quantity of 1 or more";
+            return;
+        }
+
+        let order = {
+            "product_id": product_id,
+            "total_cost": 0,
+            "distributor_id": distributor_id,
+            "order_quantity": quantity
+        }
+
+        let xhttp = new XMLHttpRequest();
+
+        xhttp.onreadystatechange = function () {
+
+            if (this.readyState == 4 && this.status == 200) {
+                console.log(this.responseText);
+                let order = JSON.parse(this.responseText);
+                window.alert("Order submitted \n Your order id is: " + order.id);
+
+            }
+        }
+        
+        document.getElementById("error").innerHTML = "";
+
+        xhttp.open("POST", `http://localhost:8080/purchaseorder/distributor_order`);
+
+        xhttp.setRequestHeader('Content-Type', 'application/json');
+
+        xhttp.send(JSON.stringify(order));
+        
+        
+    }
+
+    function load_elements() {
+        load_distributors();
+        load_products();
+    }
+
+    function load_products() {
+        let xhttp = new XMLHttpRequest();
+
+        xhttp.onreadystatechange = function () {
+            if (this.readyState == 4 && this.status == 200) {
+                let distributors = JSON.parse(this.responseText);
+                console.log(distributors);
+                let select = document.getElementById("product");
+
+                distributors.forEach(element => {
+
+                    if (element.product_type == "finished") {
+                        console.log(element);
+                        let option = document.createElement("option");
+                        option.setAttribute("value", `${element.id}`);
+                        option.setAttribute("id", `product_${element.id}`);
+                        option.innerHTML = `${element.product_name}`;
+
+                        select.appendChild(option);
+                    }
+                });
+
+            }
+        }
+
+        let url = `http://localhost:8080/product/`;
+        xhttp.open("GET", url, true);
+
+        xhttp.send();
+    }
+
+    function load_distributors() {
+        let xhttp = new XMLHttpRequest();
+
+        xhttp.onreadystatechange = function () {
+            if (this.readyState == 4 && this.status == 200) {
+                let distributors = JSON.parse(this.responseText);
+                console.log(distributors);
+                let select = document.getElementById("distributor");
+
+                distributors.forEach(element => {
+                    if(element.id != 0){
+                        let option = document.createElement("option");
+                        option.setAttribute("value", `${element.id}`);
+                        option.setAttribute("id", `distributor_${element.id}`);
+                        option.innerHTML = `${element.name} ${element.address}`;
+
+                        select.appendChild(option);
+                    }
+                });
+
+            }
+        }
+
+        let url = `http://localhost:8080/distributor`;
+        xhttp.open("GET", url, true);
+
+        xhttp.send();
+    }
+</script>
+
+</html>
